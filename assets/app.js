@@ -95,26 +95,12 @@ import './bootstrap';
     /**
      * Toggle .header-scrolled class to #header when page is scrolled
      */
-    let selectHeader = select('#header')
-    if (selectHeader) {
-        const headerScrolled = () => {
-            scrollY('header-scrolled')
-        }
-        window.addEventListener('load', headerScrolled)
-        onscroll(document, headerScrolled)
-    }
+    scrollY(select('#header'), 'header-scrolled')
 
     /**
      * Back to top button
      */
-    let backtotop = select('.back-to-top')
-    if (backtotop) {
-        const toggleBacktotop = () => {
-            scrollY('active')
-        }
-        window.addEventListener('load', toggleBacktotop)
-        onscroll(document, toggleBacktotop)
-    }
+    scrollY(select('.back-to-top'), 'active')
 
     /**
      * Mobile nav toggle
@@ -164,12 +150,17 @@ import './bootstrap';
         }
     });
 
-    function scrollY(className) {
-        if (window.scrollY > 100) {
-            selectHeader.classList.add(className)
-        } else {
-            selectHeader.classList.remove(className)
+    function scrollY(select, className) {
+        const scrolled = () => {
+            if (window.scrollY > 100) {
+                select.classList.add(className)
+            } else {
+                select.classList.remove(className)
+            }
         }
+
+        window.addEventListener('load', scrolled)
+        onscroll(document, scrolled)
     }
 
 })()
