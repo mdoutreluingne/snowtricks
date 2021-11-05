@@ -98,11 +98,7 @@ import './bootstrap';
     let selectHeader = select('#header')
     if (selectHeader) {
         const headerScrolled = () => {
-            if (window.scrollY > 100) {
-                selectHeader.classList.add('header-scrolled')
-            } else {
-                selectHeader.classList.remove('header-scrolled')
-            }
+            scrollY('header-scrolled')
         }
         window.addEventListener('load', headerScrolled)
         onscroll(document, headerScrolled)
@@ -114,11 +110,7 @@ import './bootstrap';
     let backtotop = select('.back-to-top')
     if (backtotop) {
         const toggleBacktotop = () => {
-            if (window.scrollY > 100) {
-                backtotop.classList.add('active')
-            } else {
-                backtotop.classList.remove('active')
-            }
+            scrollY('active')
         }
         window.addEventListener('load', toggleBacktotop)
         onscroll(document, toggleBacktotop)
@@ -171,5 +163,13 @@ import './bootstrap';
             }
         }
     });
+
+    function scrollY(className) {
+        if (window.scrollY > 100) {
+            selectHeader.classList.add(className)
+        } else {
+            selectHeader.classList.remove(className)
+        }
+    }
 
 })()
