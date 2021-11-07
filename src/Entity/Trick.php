@@ -25,7 +25,7 @@ class Trick
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
