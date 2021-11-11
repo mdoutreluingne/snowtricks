@@ -1,3 +1,12 @@
+/* AVATAR NAVBAR */
+.avatar {
+    max-width: 33px;
+    min-width: 33px;
+    height: 33px;
+    filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(165deg) brightness(97%) contrast(108%);
+}
+
+/* CARD TRICKS HOME PAGE*/
 .card {
     background-color: #fff;
     border-radius: 10px;
@@ -61,4 +70,108 @@
 
 .title_trick {
     color: #444444;
+}
+
+/* LOGIN */
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 20px;
+    margin-top: 12vh;
+}
+
+#formContent {
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background: #fff;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#formFooter {
+    padding: 2px;
+    text-align: right;
+    width: 90%;
+}
+
+input[type=button],
+button[type=submit] {
+    background-color: #47bcd4;
+    border: none;
+    color: white;
+    width: 85%;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 16px;
+    cursor: pointer;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    margin: 5px 20px 40px 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+input[type=button]:hover,
+button[type=submit]:hover {
+    background-color: #47bcd4;
+}
+
+input[type=button]:active,
+button[type=submit]:active,
+input[type=password]:active {
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -o-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    width: 85%;
+    border: 2px solid #f6f6f6;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus,
+input[type=email]:focus {
+    background-color: #fff;
+    border-bottom: 2px solid #47bcd4;
+}
+
+input[type=text]:placeholder,
+input[type=email]:placeholder {
+    color: #cccccc;
 }

@@ -3,6 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}SnowTricks{% endblock %}</title>
+
+        <!-- Required meta tags always come first -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
         {% block stylesheets %}
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
                 integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
@@ -35,10 +40,34 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a class="nav-link scrollto active" href="{{ path('home') }}">Accueil</a></li>
+                        <li><a class="nav-link scrollto" href="{{ path('home') }}">Accueil</a></li>
                         <li><a class="nav-link scrollto" href="#tricks">Figures</a></li>
-                        <li><a class="nav-link scrollto" href="{{ path('app_login') }}">Se connecter</a></li>
-                        <li><a class="nav-link scrollto" href="{{ path('app_register') }}">S'inscrire</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a class="nav-link scrollto" href="{{ path('admin') }}">Administration</a></li>
+                        {% endif %}
+                        {% if app.user %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span>
+                                        {% if app.user.avatar != null %}
+                                        <img src="/img/avatar/user.svg"
+                                            class="img-fluid rounded-circle avatar mr-2">{{ app.user.username }}
+                                        {% else %}
+                                        <img src="/img/avatar/user.svg"
+                                            class="img-fluid rounded-circle avatar mr-2">{{ app.user.username }}
+                                        {% endif %}
+                                    </span>
+                                </a>
+                                <ul>
+                                    <li><a href="" class="nav-link">Modifier votre compte</a></li>
+                                    <li><a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li><a class="nav-link scrollto" href="{{ path('app_login') }}">Se connecter</a></li>
+                            <li><a class="nav-link scrollto" href="{{ path('app_register') }}">S'inscrire</a></li>
+                        {% endif %}
                     </ul>
                     <i class="fas fa-bars mobile-nav-toggle"></i>
                 </nav>
