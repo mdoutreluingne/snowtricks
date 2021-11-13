@@ -6,6 +6,18 @@
     filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(165deg) brightness(97%) contrast(108%);
 }
 
+.fa-user-circle,
+.fa-home,
+.fa-bookmark,
+.fa-user-circle,
+.fa-sign-out-alt,
+.fa-sign-in-alt {
+    font-size: 1.5em !important;
+    height: 1.5vh !important;
+    margin-top: 1.2vh;
+    margin-right: 1vh;
+}
+
 /* CARD TRICKS HOME PAGE*/
 .card {
     background-color: #fff;
@@ -72,6 +84,10 @@
     color: #444444;
 }
 
+.loadmore-tricks {
+    margin-bottom: 3vh;
+}
+
 /* LOGIN */
 .wrapper {
     display: flex;
@@ -81,7 +97,7 @@
     width: 100%;
     min-height: 100%;
     padding: 20px;
-    margin-top: 12vh;
+    margin-top: 10vh;
 }
 
 #formContent {
@@ -174,4 +190,9 @@ input[type=email]:focus {
 input[type=text]:placeholder,
 input[type=email]:placeholder {
     color: #cccccc;
+}
+
+/* ADMIN */
+.panel-admin {
+    margin-top: 10vh;
 }

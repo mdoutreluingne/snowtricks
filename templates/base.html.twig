@@ -31,6 +31,7 @@
     </head>
     <body>
         {% block navbar %}
+        {# Global navbar #}
         <header id="header" class="fixed-top header-transparent">
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -54,13 +55,12 @@
                                         <img src="/img/avatar/user.svg"
                                             class="img-fluid rounded-circle avatar mr-2">{{ app.user.username }}
                                         {% else %}
-                                        <img src="/img/avatar/user.svg"
-                                            class="img-fluid rounded-circle avatar mr-2">{{ app.user.username }}
+                                        <i class="fas fa-user-circle"></i>{{ app.user.username }}
                                         {% endif %}
                                     </span>
                                 </a>
                                 <ul>
-                                    <li><a href="" class="nav-link">Modifier votre compte</a></li>
+                                    <li><a href="{{ path('account') }}" class="nav-link">Modifier votre compte</a></li>
                                     <li><a href="{{ path('app_logout') }}" class="nav-link">Se déconnecter</a></li>
                                 </ul>
                             </li>
@@ -74,6 +74,29 @@
 
             </div>
         </header>
+        {# Menu mobile #}
+        <nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark d-block d-sm-none">
+            <div class="container-fluid my-2">
+                <a class="mx-3 scrollto" href="{{ path('home') }}" aria-current="page">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="{{ path('home', {'_fragment': 'tricks'}) }}" aria-current="page">
+                    <i class="fas fa-bookmark"></i>
+                </a>
+                {% if app.user %}
+                    <a class="mx-3" href="{{ path('account') }}" aria-current="page">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <a class="mx-3" href="{{ path('app_logout') }}" aria-current="page">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                {% else %}
+                    <a class="mx-3" href="{{ path('app_login') }}" aria-current="page">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </nav>
         {% endblock %}
 
         {% block body %}

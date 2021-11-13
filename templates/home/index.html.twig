@@ -33,6 +33,10 @@
                                     <a href="" class="title_trick">
                                         Why is the Tesla Cybertruck
                                     </a>
+                                    {% if app.user %}
+                                        <a href="" data-toggle="tooltip" data-placement="right" title="Modifier"><i class="fas fa-pencil-alt"></i></a>
+                                        <a href="" data-toggle="tooltip" data-placement="right" title="Supprimer"><i class="fas fa-trash-alt"></i></a>
+                                    {% endif %}
                                 </h4>
                             </div>
                         </div>
@@ -44,7 +48,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center mb-3">
+            <div class="col-12 text-center loadmore-tricks">
                 <a href="" class="btn btn-info">Voir plus</a>
             </div>
         </div>

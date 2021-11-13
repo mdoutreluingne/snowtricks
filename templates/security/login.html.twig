@@ -25,11 +25,7 @@
 
 <div class="wrapper zero-raduis">
     <div id="formContent">
-        <!-- Tabs Titles -->
-
-        <!-- Icon -->
         <div class="first">
-            <!-- <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" /> -->
             <h2 class="my-3">Connexion</h2>
         </div>
 
@@ -49,11 +45,13 @@
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
             <div id="formFooter">
-                <a class="underlineHover" href="{{ path('app_forgot_password') }}">Forgot Password?</a>
+                <a class="underlineHover" href="{{ path('app_forgot_password') }}">Mot de passe oublié ?</a>
+                <a href="{{ path('app_register') }}" class="underlineHover register-mobile">S'inscrire</a>
             </div>
             <button class="btn btn-lg btn-primary fourth zero-raduis" type="submit">
                 Se connecter
             </button>
+            
         </form>
 
 
