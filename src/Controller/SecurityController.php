@@ -78,9 +78,6 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('app_login');
             }
 
-            //We generate the password reset URL
-            //$url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-
             //Send email
             $mailerService->send('snowtricks@gmail.com', $user->getEmail(), 'Mot de passe oublié - SnowTricks', 'security/email.html.twig', [
                 'token' => $token

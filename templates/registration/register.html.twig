@@ -47,7 +47,8 @@
 
             {{ form_row(registrationForm.plainPassword) }}
 
-        <button type="submit" class="btn">Valider</button>
+        <button type="submit" class="btn">Créer un compte</button>
+        <a href="{{ path('app_login') }}" class="login-mobile mb-3">Déjà un compte ?</a>
         {{ form_end(registrationForm) }}
 
     </div>
