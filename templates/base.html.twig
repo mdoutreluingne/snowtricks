@@ -52,7 +52,7 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span>
                                         {% if app.user.avatar != null %}
-                                        <img src="/img/avatar/user.svg"
+                                        <img src="/img/avatars/user.svg"
                                             class="img-fluid rounded-circle avatar mr-2">{{ app.user.username }}
                                         {% else %}
                                         <i class="fas fa-user-circle"></i>{{ app.user.username }}
@@ -77,10 +77,10 @@
         {# Menu mobile #}
         <nav class="navbar fixed-bottom navbar-expand navbar-dark bg-dark d-block d-sm-none">
             <div class="container-fluid my-2">
-                <a class="mx-3 scrollto" href="{{ path('home') }}" aria-current="page">
+                <a class="mx-3" href="{{ path('home') }}" aria-current="page">
                     <i class="fas fa-home"></i>
                 </a>
-                <a href="{{ path('home', {'_fragment': 'tricks'}) }}" aria-current="page">
+                <a class="scrollto" href="{{ path('home', {'_fragment': 'tricks'}) }}" aria-current="page">
                     <i class="fas fa-bookmark"></i>
                 </a>
                 {% if app.user %}

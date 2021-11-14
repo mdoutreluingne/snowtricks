@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Trick
 {
@@ -51,11 +52,6 @@ class Trick
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="tricks")
-     */
-    private $category;
-
-    /**
      * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $pictures;
@@ -70,9 +66,14 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
     public function __construct()
     {
-        $this->category = new ArrayCollection();
         $this->pictures = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
@@ -151,30 +152,6 @@ class Trick
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Category[]
-     */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
-
-    public function addCategory(Category $category): self
-    {
-        if (!$this->category->contains($category)) {
-            $this->category[] = $category;
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): self
-    {
-        $this->category->removeElement($category);
 
         return $this;
     }
@@ -267,5 +244,46 @@ class Trick
         }
 
         return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function OnPrePersist(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+        $this->generateSlug();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function OnPreUpdate(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
+        $this->generateSlug();
+    }
+
+    /**
+     * Generate Slug
+     *
+     * @return string
+     */
+    public function generateSlug(): string
+    {
+        return $this->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->getName()), '-'));
     }
 }
