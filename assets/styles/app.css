@@ -1,9 +1,10 @@
 /* AVATAR NAVBAR */
 .avatar {
-    max-width: 33px;
-    min-width: 33px;
-    height: 33px;
-    filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(165deg) brightness(97%) contrast(108%);
+  max-width: 33px;
+  min-width: 33px;
+  height: 33px;
+  filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(165deg)
+    brightness(97%) contrast(108%);
 }
 
 .fa-user-circle,
@@ -11,188 +12,213 @@
 .fa-bookmark,
 .fa-user-circle,
 .fa-sign-out-alt,
-.fa-sign-in-alt {
-    font-size: 1.5em !important;
-    height: 1.5vh !important;
-    margin-top: 1.2vh;
-    margin-right: 1vh;
+.fa-sign-in-alt,
+.fa-plus {
+  font-size: 1.5em !important;
+  height: 1.5vh !important;
+  margin-top: 1.2vh;
+  margin-right: 1vh;
+}
+
+.form-delete {
+  display: inline;
+}
+
+.form-delete .fa-trash-alt {
+  font-size: 1.5rem;
+  color: #47bcd4;
 }
 
 /* CARD TRICKS HOME PAGE*/
 .card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    margin-bottom: 5%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin-bottom: 5%;
 }
 
 .card-header img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
 .tag {
-    background: #cccccc;
-    border-radius: 50px;
-    font-size: 12px;
-    margin: 0;
-    color: #fff;
-    padding: 2px 10px;
-    text-transform: uppercase;
+  background: #cccccc;
+  border-radius: 50px;
+  font-size: 12px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
 }
 
 .tag-teal {
-    background-color: #47bcd4;
+  background-color: #47bcd4;
 }
 
 .tag-purple {
-    background-color: #5e76bf;
+  background-color: #5e76bf;
 }
 
 .tag-pink {
-    background-color: #cd5b9f;
+  background-color: #cd5b9f;
 }
 
 .card-body p {
-    font-size: 13px;
-    margin: 0 0 40px;
+  font-size: 13px;
+  margin: 0 0 40px;
 }
 
 .user {
-    display: flex;
-    margin-top: auto;
+  display: flex;
+  margin-top: auto;
 }
 
 .user img {
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 
 .user-info h5 {
-    margin: 0;
+  margin: 0;
 }
 
 .user-info small {
-    color: #545d7a;
+  color: #545d7a;
 }
 
 .title_trick {
-    color: #444444;
+  color: #444444;
 }
 
 .loadmore-tricks {
-    margin-bottom: 3vh;
+  margin-bottom: 3vh;
 }
 
 /* LOGIN */
 .wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    min-height: 100%;
-    padding: 20px;
-    margin-top: 10vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: 100%;
+  padding: 20px;
+  margin-top: 10vh;
 }
 
 #formContent {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-    background: #fff;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
-    -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
-    text-align: center;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
+  background: #fff;
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+  padding: 0px;
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 #formFooter {
-    padding: 2px;
-    text-align: right;
-    width: 90%;
+  padding: 2px;
+  text-align: right;
+  width: 90%;
 }
 
-input[type=button],
-button[type=submit] {
-    background-color: #47bcd4;
-    border: none;
-    color: white;
-    width: 85%;
-    padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 16px;
-    cursor: pointer;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
-    margin: 5px 20px 40px 20px;
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+input[type="button"],
+button[type="submit"] {
+  background-color: #47bcd4;
+  border: none;
+  color: white;
+  width: 85%;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  margin: 5px 20px 40px 20px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
-input[type=button]:hover,
-button[type=submit]:hover {
-    background-color: #47bcd4;
+input[type="button"]:hover,
+button[type="submit"]:hover {
+  background-color: #47bcd4;
 }
 
-input[type=button]:active,
-button[type=submit]:active,
-input[type=password]:active {
-    -moz-transform: scale(0.95);
-    -webkit-transform: scale(0.95);
-    -o-transform: scale(0.95);
-    -ms-transform: scale(0.95);
-    transform: scale(0.95);
+input[type="button"]:active,
+button[type="submit"]:active,
+input[type="password"]:active {
+  -moz-transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
 }
 
-input[type=text],
-input[type=email],
-input[type=password] {
-    background-color: #f6f6f6;
-    border: none;
-    color: #0d0d0d;
-    padding: 10px 25px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    width: 85%;
-    border: 2px solid #f6f6f6;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    border-radius: 5px 5px 5px 5px;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: #f6f6f6;
+  color: #0d0d0d;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus,
-input[type=email]:focus {
-    background-color: #fff;
-    border-bottom: 2px solid #47bcd4;
+input[type="text"]:focus,
+input[type="email"]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #47bcd4;
 }
 
-input[type=text]:placeholder,
-input[type=email]:placeholder {
-    color: #cccccc;
+input[type="text"]:placeholder,
+input[type="email"]:placeholder {
+  color: #cccccc;
 }
 
 /* ADMIN */
 .panel-admin {
-    margin-top: 10vh;
+  margin-top: 10vh;
+}
+
+/* TRICK */
+.trick-data {
+  font-size: 0.8rem;
+}
+
+.list-inline-item:not(:first-child) {
+  margin-left: 0.5rem;
+}
+
+.no-medias {
+  border: 2px solid grey;
+}
+
+.no-medias > p {
+  color: grey;
 }

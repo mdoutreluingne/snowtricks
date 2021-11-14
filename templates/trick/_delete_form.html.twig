@@ -1,0 +1,5 @@
+<form method="post" class="form-delete" action="{{ path('trick_delete', {'id': trick.id}) }}"
+    onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+    <button class="btn" data-toggle="tooltip" data-placement="right" title="Supprimer"><i class="fas fa-trash-alt"></i></button>
+</form>
