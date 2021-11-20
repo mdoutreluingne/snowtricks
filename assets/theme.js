@@ -7,9 +7,6 @@
 (function () {
   "use strict";
 
-  /* Init tooltips bootstrap */
-  $('[data-toggle="tooltip"]').tooltip();
-
   /**
    * Easy selector helper function
    */

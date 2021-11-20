@@ -22,6 +22,8 @@ class Picture
      */
     private $name;
 
+    private $file;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -87,6 +89,26 @@ class Picture
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of file
+     */ 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of file
+     *
+     * @return  self
+     */ 
+    public function setFile($file)
+    {
+        $this->file = $file;
 
         return $this;
     }

@@ -24,34 +24,42 @@
 
             <div class="section-title">
                 <h2>Figures</h2>
+          
                 {% if app.user %}
-                {# Add trick #}
+                {# Display icon for add trick #}
                 <div>
                     <a href="{{ path('trick_new') }}" data-toggle="tooltip" data-placement="right"
-                        title="Ajouter un figure">
-                        <i class="fas fa-plus"></i>
+                        title="Ajouter une figure">
+                        <i class="fas fa-plus fa-2x"></i>
                     </a>
                 </div>
                 {% endif %}
             </div>
 
-
+            {# Flashes message #}
+            {% import 'macros/alertes.html.twig' as utils %}
+            {{ utils.alert(app.flashes) }}
 
             <div class="row">
                 {% for trick in tricks %}
                 <div class="col col-xl-3 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="card">
-                        <img class="img-fluid" src="/img/tricks/empty.jpg" alt="empty">
+                        {% if trick.mainPicture != null %}
+                        <img class="img-fluid" src="/img/tricks/{{ trick.mainPicture }}">
+                        {% else %}
+                        <img class="img-fluid" src="/img/tricks/default.jpg" alt="default">
+                        {% endif %}
                         <div class="card-body">
                             <span class="tag tag-teal">{{ trick.category.name }}</span>
                             <h4>
                                 <a href="{{ path('trick_show', {'slug': trick.slug}) }}" class="title_trick">
                                     {{ trick.name }}
-                                    
                                 </a>
+                                
                                 {% if app.user %}
-                                <a href="{{ path('trick_edit', {id: trick.id}) }}" data-toggle="tooltip"
-                                    data-placement="right" title="Modifier"><i class="fas fa-pencil-alt"></i></a>
+                                {# Display icon for modify or delete trick #}
+                                <a href="{{ path('trick_edit', {slug: trick.slug}) }}" data-toggle="tooltip"
+                                    data-placement="right" title="Modifier une figure"><i class="fas fa-pencil-alt"></i></a>
                                 {{ include('trick/_delete_form.html.twig') }}
                                 {% endif %}
                             </h4>

@@ -1,0 +1,32 @@
+<div class="row justify-content-md-center" id="media">
+    <div class="col-md-6">
+        <div class="row">
+            {# Display Main picture in the pictures collection #}
+            {% if trick.mainPicture != null %}
+            <div class="col-md-4 mb-3 trickimages">
+                <a href="/img/tricks/{{ trick.mainPicture }}" class="zoombox zgallery1">
+                    <img class="img-fluid" src="/img/tricks/{{ trick.mainPicture }}" />
+                </a>
+            </div>
+            {% else %}
+            <div class="col-md-4 mb-3 trickimages">
+                <a href="/img/tricks/default.jpg" class="zoombox zgallery1">
+                    <img class="img-fluid" src="/img/tricks/default.jpg" />
+                </a>
+            </div>
+            {% endif %}
+            {# Display pictures collection #}
+            {% for picture in pictures %}
+            <div class="col-md-4 mb-3 trickimages">
+                <a href="/img/tricks/{{ picture.name }}" class="zoombox zgallery1">
+                    <img class="img-fluid" src="/img/tricks/{{ picture.name }}" />
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+        </div>
+    </div>
+</div>

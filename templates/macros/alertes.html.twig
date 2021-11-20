@@ -1,0 +1,7 @@
+{% macro alert(flash) %}
+    {% for key,value in flash %}
+        <div class="alert alert-{{ key }} text-center" role="alert">
+            {{ value[0] }}
+        </div>
+    {% endfor %}
+{% endmacro%}

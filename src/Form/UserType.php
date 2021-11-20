@@ -6,7 +6,10 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -38,6 +41,22 @@ class UserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'required' => false,
                 'label' => "Nom"
+            ])
+            ->add('avatar', FileType::class, [
+                'multiple' => false,
+                'required' => false,
+                'mapped' => false,
+                'label' => "Avatar",
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1Mi',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                    ])
+                ],
+                'attr' => ['placeholder' => "Choisir l'image"]
             ]);
             if ($this->security->isGranted('ROLE_ADMIN')) {
                 $builder->add('roles', ChoiceType::class, [

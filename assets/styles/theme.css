@@ -215,6 +215,10 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
+.seeMedia {
+  display: none;
+}
+
 .bg-dark {
  background: rgba(55, 142, 181, 0.9) !important;
 }
@@ -269,6 +273,9 @@ h1, h2, h3, h4, h5, h6 {
   }
   .loadmore-tricks {
     margin-bottom: 10vh !important;
+  }
+  .seeMedia {
+    display: block;
   }
 }
 .navbar-mobile {

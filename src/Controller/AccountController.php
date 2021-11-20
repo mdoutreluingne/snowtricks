@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AccountController extends AbstractController
+class AccountController extends BaseController
 {
     /**
      * @Route("/account", name="account")
@@ -19,9 +19,16 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //We recover the transmitted avatar
+            $avatar = $form->get('avatar')->getData();
+
+            //Call function for manage avatar
+            $this->managePicture($avatar, $this->getUser());
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('admin/user/edit.html.twig', [

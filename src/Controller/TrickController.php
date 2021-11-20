@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
+use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  * @Route("/trick")
  * @IsGranted("ROLE_USER")
  */
-class TrickController extends AbstractController
+class TrickController extends BaseController
 {
     /**
      * @Route("/", name="trick_index", methods={"GET"})
@@ -37,9 +38,13 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->uploadMainPicture($form, $trick);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
+
+            $this->addFlash('success', "Votre nouvelle figure a été ajoutée avec succès !");
 
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
@@ -53,23 +58,28 @@ class TrickController extends AbstractController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET"})
      */
-    public function show(Trick $trick): Response
+    public function show(Trick $trick, PictureRepository $pictureRepository): Response
     {
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'pictures' => $pictureRepository->findBy(['trick' => $trick])
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="trick_edit", methods={"GET","POST"})
+     * @Route("/{slug}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trick $trick): Response
+    public function edit(Request $request, Trick $trick, PictureRepository $pictureRepository): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->uploadMainPicture($form, $trick);
+            
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', "Les informations ont été mises à jour avec succès !");
 
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
@@ -77,11 +87,12 @@ class TrickController extends AbstractController
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
+            'pictures' => $pictureRepository->findBy(['trick' => $trick])
         ]);
     }
 
     /**
-     * @Route("/{id}", name="trick_delete", methods={"POST"})
+     * @Route("/{slug}", name="trick_delete", methods={"POST"})
      */
     public function delete(Request $request, Trick $trick): Response
     {
@@ -89,8 +100,19 @@ class TrickController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($trick);
             $entityManager->flush();
+
+            $this->addFlash('success', $trick->getName() . " a été supprimée avec succès !");
         }
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function uploadMainPicture($form, $object): void
+    {
+        //We recover the transmitted avatar
+        $avatar = $form->get('main_picture')->getData();
+
+        //Call function for manage avatar
+        $this->managePicture($avatar, $object);
     }
 }

@@ -3,102 +3,91 @@
 {% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
-{#  Start Trick #}
-<div class="container mt-5">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-10 col-md-offset-1 mt-5 mb-4">
-            {% for message in app.flashes('success') %}
-            <div class="alert alert-success alert-dismissible fade show mb-0 mt-1" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <i class="fa fa-check mx-2"></i>
-                <strong>{{ message }}</strong>
-            </div>
-            {% endfor %}
-            <div class="card mt-5">
-                {# <img class="card-img-top" src="/img/{{ trick.image }}" alt="{{ trick.name }}-main"> #}
-                <img class="card-img-top" src="/img/tricks/empty.jpg" alt="empty">
-                    
-                <div class="card-body">
-                    <ul class="list-inline trick-data">
-                        <li class="list-inline-item">
-                            Par : {{ trick.user.username }}
-                        </li> |
-                        <li class="list-inline-item">
-                            Ajouté le {{ trick.createdAt|date('d/m/Y') }} (<small>Mise à jour le :
-                                {% if trick.updatedAt is defined %}{{ trick.updatedAt|date('d/m/Y') }}{% endif %}</small>)
-                        </li> |
-                        <li class="list-inline-item">
-                            Catégorie : {{ trick.category.name }}
-                        </li> |
-                        <li class="list-inline-item">
-                            <a href="#comments-block">{{ trick.comments|length }} commentaires</a>
-                        </li>
-                    </ul>
-
-                    <h4 class="card-title"><strong>{{ trick.name }}</strong></h4>
-                    <h5 class="card-title">Description</h5>
-                    <p class="card-text text-justify">{{ trick.description }}</p>
-
-                </div>
-            </div>
-            <!--  End Trick -->
-
-            <!-- Start Comment Add Form -->
-            {% if app.user %}
-            {# <div class="col-lg-12 px-0 mb-30">
-                <div class="cmt padDiv">
-                    <h6 class="mb-30">Bonjour {{ app.user.username }} !</h6>
-                    {{ form_start(form) }}
-                    <div class="form-group">
-                        {{ form_row(form.content) }}
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-success mt-3">Commenter</button>
-                    </div>
-                    {{ form_end(form) }}
-                </div>
-            </div> #}
-            {% else %}
-            <div class="col-md-12 px-0 mb-30">
-                <div class="comments text-center p-3">
-                    <p><a href="{{ path('app_register') }}">Inscrivez-vous</a> ou <a
-                            href="{{ path('app_login') }}">connectez vous</a> pour commenter cet article</p>
-                </div>
-            </div>
-            {% endif %}
-
-            {# Start Comment Add Form #}
-            <span class="comments-anchor" id="comments-block"></span>
-            <div class="col-md-12 pl-0 pr-0">
-                <div class="comments text-left padDiv mb-30">
-                    <div class="entry-comments">
-                        <h6 class="mb-30">{{ trick.comments | length }} commentaires</h6>
-                        <ul class="entry-comments-list list-unstyled">
-                            {# {% for comment in comments %}
-                            <span class="comment-anchor" id="{{ comment.id }}"></span>
-                            <li>
-                                <div class="entry-comments-item">
-                                    <img src="/images/{{ comment.user.avatar }}" class="entry-comments-avatar"
-                                        alt="{{ comment.user.username }}">
-                                    <div class="entry-comments-body">
-                                        <span class="entry-comments-author"><a
-                                                href="{{ path('user_profile', { 'id' : comment.user.id }) }}"
-                                                target="_blank">{{ comment.user.username }}</a></span>
-                                        <span class="comment-date">le {{ comment.createdAt | date('d/m/Y') }} à
-                                            {{ comment.createdAt | date('H:i') }}</span>
-                                        <p class="comment-content text-justify">{{ comment.content }}</p>
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %} #}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            {# End Comments #}
+{# Trick header #}
+<header class="img-fluid"
+    style="height: 90vh;background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff
+    100%), url('/img/tricks/{{ trick.mainPicture != null ? trick.mainPicture : 'default.jpg'}}');background-repeat: no-repeat;background-size: cover;">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <h1 class="text-uppercase mx-auto my-0">{{ trick.name }}</h1>
         </div>
     </div>
-</div>
+    {% if app.user %}
+    <div class="operations">
+        <a href="{{ path('trick_edit', {'slug': trick.slug}) }}" data-toggle="tooltip" data-placement="right"
+            title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
+        {{ include('trick/_delete_form.html.twig') }}
+    </div>
+    {% endif %}
+</header>
+
+
+{# Trick detail #}
+<section id="tricks" class="projects-section">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 text-center">
+                <div class="row justify-content-md-center">
+                </div>
+                {{ include('trick/_pictures_collection.html.twig') }}
+                <div class="row seeMedia mt-3">
+                    <div class="mx-auto">
+                        <button id="seeMedia" class="btn btn-primary">Voir les médias</button>
+                    </div>
+                </div>
+                <hr>
+                <p>{{ trick.description }}</p>
+                <hr>
+                <p><span class="btn btn-info">Catégorie: {{ trick.category.name }}</span></p>
+                <hr>
+                <span class=" justify-content-md-center">
+                    <span class="btn btn-info"><i class="fa fa-calendar"></i> Publié le
+                        {{ trick.createdAt|date('d/m/Y') }}</span>
+                </span>
+                <span class=" justify-content-md-center">
+                    <span class="btn btn-info"><i class="fa fa-calendar"></i> Modifié le
+                        {{ trick.updatedAt|date('d/m/Y') }}</span>
+                </span>
+                <span class="btn btn-info justify-content-md-center"><i class="fa fa-user"></i> Auteur:
+                    {{ trick.user.username }}</span>
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+{# Comments Section #}
+<section id="comments">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8 col-sm-12">
+                <div id="post-add-comment" class="well">
+                    <div class="form-card text-center">
+                        <a class="btn btn-success btnlogin2" href="/connexion">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>Connectez-vous
+                        </a>
+                        pour publier un message<br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8 list-comments">
+                <h3>
+                    <i class="fa fa-comments" aria-hidden="true"></i> 1
+                    commentaire</h3>
+                <hr>
+                <div class="row post-comment">
+                    <h4 class="col-sm-3 commentnotes">
+                        <div class="comment-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <strong>Anonyme</strong><br /> publié le<br />
+                        <strong>09/08/2019</strong>
+                    </h4>
+                    <div class="col-sm-9">
+                        Perso! Je me suis vautré à chaque fois que j'ai essayé
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
