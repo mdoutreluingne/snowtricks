@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\PictureRepository;
 use App\Repository\TrickRepository;
+use App\Service\ConvertUrlVideoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/trick")
- * @IsGranted("ROLE_USER")
  */
 class TrickController extends BaseController
 {
@@ -29,6 +29,7 @@ class TrickController extends BaseController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/new", name="trick_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -58,15 +59,18 @@ class TrickController extends BaseController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET"})
      */
-    public function show(Trick $trick, PictureRepository $pictureRepository): Response
+    public function show(Trick $trick, PictureRepository $pictureRepository, ConvertUrlVideoService $convertUrlVideoService): Response
     {
+        //dd();
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'pictures' => $pictureRepository->findBy(['trick' => $trick])
+            'pictures' => $pictureRepository->findBy(['trick' => $trick]),
+            'videos' => $convertUrlVideoService->VidProviderUrl2Player($trick)
         ]);
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Trick $trick, PictureRepository $pictureRepository): Response
@@ -92,6 +96,7 @@ class TrickController extends BaseController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/{slug}", name="trick_delete", methods={"POST"})
      */
     public function delete(Request $request, Trick $trick): Response

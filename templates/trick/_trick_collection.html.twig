@@ -1,0 +1,39 @@
+<div class="row justify-content-md-center" id="media">
+    {# Display pictures collection #}
+    <div class="col-md-6">
+        <div class="row">
+            {# Display Main picture in the pictures collection #}
+            {% if trick.mainPicture != null %}
+            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
+                <a href="/img/tricks/{{ trick.mainPicture }}" class="">
+                    <img class="img-fluid trickimages" src="/img/tricks/{{ trick.mainPicture }}" />
+                </a>
+            </div>
+            {% else %}
+            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
+                <a href="/img/tricks/default.jpg" class="">
+                    <img class="img-fluid trickimages" src="/img/tricks/default.jpg" />
+                </a>
+            </div>
+            {% endif %}
+            
+            {% for picture in pictures %}
+            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
+                <a href="/img/tricks/{{ picture.name }}" class="">
+                    <img class="img-fluid trickimages" src="/img/tricks/{{ picture.name }}" />
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {# Display videos collection #}
+    <div class="col-md-6">
+        <div class="row">
+            {% for video in videos %}
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4 trickvideos">
+                {{ video|raw }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

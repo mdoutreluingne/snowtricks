@@ -42,7 +42,7 @@
                 <nav id="navbar" class="navbar">
                     <ul>
                         <li><a class="nav-link scrollto" href="{{ path('home') }}">Accueil</a></li>
-                        <li><a class="nav-link scrollto" href="#tricks">Figures</a></li>
+                        <li><a class="nav-link scrollto" href="{{ path('home', {'_fragment': 'tricks'}) }}">Figures</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
                             <li><a class="nav-link scrollto" href="{{ path('admin') }}">Administration</a></li>
                         {% endif %}

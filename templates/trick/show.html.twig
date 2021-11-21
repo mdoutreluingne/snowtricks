@@ -4,9 +4,9 @@
 
 {% block body %}
 {# Trick header #}
-<header class="img-fluid"
-    style="height: 90vh;background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff
-    100%), url('/img/tricks/{{ trick.mainPicture != null ? trick.mainPicture : 'default.jpg'}}');background-repeat: no-repeat;background-size: cover;">
+<header class="img-fluid masthead"
+    style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff
+    100%), url('/img/tricks/{{ trick.mainPicture != null ? trick.mainPicture : 'default.jpg'}}');">
     <div class="container d-flex h-100 align-items-center">
         <div class="mx-auto text-center">
             <h1 class="text-uppercase mx-auto my-0">{{ trick.name }}</h1>
@@ -29,10 +29,10 @@
             <div class="col-md-12 text-center">
                 <div class="row justify-content-md-center">
                 </div>
-                {{ include('trick/_pictures_collection.html.twig') }}
+                {{ include('trick/_trick_collection.html.twig') }}
                 <div class="row seeMedia mt-3">
                     <div class="mx-auto">
-                        <button id="seeMedia" class="btn btn-primary">Voir les médias</button>
+                        <button class="btn btn-primary">Voir les médias</button>
                     </div>
                 </div>
                 <hr>

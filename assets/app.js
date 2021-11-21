@@ -15,5 +15,9 @@ import "./bootstrap";
 (function () {
   /* Init tooltips bootstrap */
   $('[data-toggle="tooltip"]').tooltip();
+
+  $(".seeMedia").click(function () {
+    $("#media").toggle();
+  });
   
 })();
