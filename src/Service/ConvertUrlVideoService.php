@@ -17,8 +17,13 @@ class ConvertUrlVideoService
         $this->videoRepository = $videoRepository;
     }
 
-    //Renvoi un lecteur d'après l'url
-    public function VidProviderUrl2Player(Trick $trick)
+    /**
+     * Renvoi un lecteur d'après l'url
+     *
+     * @param Trick $trick
+     * @return array
+     */
+    public function VidProviderUrl2Player(Trick $trick): array
     {
         $arrayVideo = [];
         /* Parameter video player */
@@ -31,13 +36,22 @@ class ConvertUrlVideoService
 
             switch ($v['type']) {
                 case 'youtube':
-                    $arrayVideo[] = '<iframe width="' . $aWidth . '" height="' . $aHeight . '" src="https://www.youtube.com/embed/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" frameborder="0" allowfullscreen autoplay="1"></iframe>';
+                    $arrayVideo[] = [
+                        "iframe" => '<iframe width="' . $aWidth . '" height="' . $aHeight . '" src="https://www.youtube.com/embed/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" frameborder="0" allowfullscreen autoplay="1"></iframe>',
+                        "id" => $video->getId()
+                    ];
                     break;
                 case 'vimeo':
-                    $arrayVideo[] = '<iframe src="https://player.vimeo.com/video/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" width="' . $aWidth . '" height="' . $aHeight . '" frameborder="0"  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+                    $arrayVideo[] = [
+                        "iframe" => '<iframe src="https://player.vimeo.com/video/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" width="' . $aWidth . '" height="' . $aHeight . '" frameborder="0"  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
+                        "id" => $video->getId()
+                    ];
                     break;
                 case 'dailymotion':
-                    $arrayVideo[] = '<iframe frameborder="0" width="' . $aWidth . '" height="' . $aHeight . '" src="//www.dailymotion.com/embed/video/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" allowfullscreen></iframe>';
+                    $arrayVideo[] = [
+                        "iframe" => '<iframe frameborder="0" width="' . $aWidth . '" height="' . $aHeight . '" src="//www.dailymotion.com/embed/video/' . $v['videoId'] . ($aAutoplay ? '?autoplay=1' : '') . '" allowfullscreen></iframe>',
+                        "id" => $video->getId()
+                    ];
                     break;
                 default:
                     $arrayVideo[] = "";
@@ -61,7 +75,6 @@ class ConvertUrlVideoService
             }
         } elseif (strpos($aUrl, 'youtu.be') !== false) {
             // youtu.be
-            $d = strpos($aUrl, 'youtu.be/');
             if (preg_match('/(.+)youtu.be\/([\w-]+)/', $aUrl, $vid)) {
                 $vid = $vid[2];
                 $type = 'youtube';

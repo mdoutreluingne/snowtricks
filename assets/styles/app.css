@@ -21,7 +21,8 @@
   display: inline;
 }
 
-.form-delete .fa-trash-alt {
+.fa-trash-alt,
+.fa-pencil-alt {
   color: #47bcd4;
 }
 
@@ -232,6 +233,10 @@ input[type="email"]:placeholder {
   background-color: white;
   padding: 5px 10px;
   border-radius: 10px;
+}
+
+.main_picture {
+  display: none;
 }
 
 .masthead {

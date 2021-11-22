@@ -48,7 +48,7 @@ class TrickType extends AbstractType
                 'multiple' => false,
                 'required' => false,
                 'mapped' => false,
-                'label' => "Image à la une",
+                'label' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '5Mi',

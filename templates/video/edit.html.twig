@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une vidéo{% endblock %}
+
+{% block body %}
+<div class="wrapper zero-raduis panel-admin">
+    <div id="formContent">
+        <div class="first">
+            <h2 class="my-3">Modifier une vidéo</h2>
+        </div>
+
+        {{ include('video/_form.html.twig', {'button_label': 'Valider'}) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

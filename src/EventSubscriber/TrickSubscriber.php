@@ -35,13 +35,26 @@ class TrickSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $args): void
     {
-        $args->getObject()->setCreatedAt(new \DateTimeImmutable());
+        $this->persistTrick($args);
         $this->saveTrick($args);
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
     {
         $this->saveTrick($args);
+    }
+
+    private function persistTrick(LifecycleEventArgs $args): void
+    {
+        $entity = $args->getObject();
+
+        // if this subscriber only applies to certain entity types,
+        // add some code to check the entity type as early as possible
+        if (!$entity instanceof Trick) {
+            return;
+        }
+
+        $args->getObject()->setCreatedAt(new \DateTimeImmutable());
     }
 
     private function saveTrick(LifecycleEventArgs $args): void

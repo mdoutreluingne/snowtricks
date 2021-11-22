@@ -2,6 +2,11 @@
 
 {% block title %}Modifier une figure{% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('deleteMainPicture') }}
+{% endblock %}
+
 {% block body %}
 {{ form_start(form) }}
 {# Trick header #}
@@ -15,8 +20,15 @@
     </div>
     {% if app.user %}
     <div class="operations">
-        <i class="fas fa-pencil-alt fa-lg"></i>
-        <i class="fas fa-trash-alt fa-lg"></i>
+        <label for="file-input">
+            <i class="fas fa-pencil-alt fa-lg" id="edit-main-picture" data-toggle="tooltip" data-placement="right"
+                title="Modifier l'image à la une"></i>
+            <div class="main_picture">
+                {{ form_row(form.main_picture) }}
+            </div> 
+        </label>
+        
+        <i class="fas fa-trash-alt fa-lg" id="deleteMainPicture" data-trick="{{ trick.id }}" data-toggle="tooltip" data-placement="right" title="Supprimer l'image à la une"></i>
     </div>
     {% endif %}
 </header>
@@ -29,10 +41,10 @@
             <div class="col-md-12 text-center">
                 <div class="row justify-content-md-center">
                 </div>
-                {{ include('trick/_trick_collection.html.twig') }}
+                {{ include('trick/_trick_collection.html.twig', {'action': 'edit'}) }}
                 <div class="row seeMedia">
                     <div class="mx-auto">
-                        <button id="seeMedia" class="btn btn-primary">Voir les médias</button>
+                        <a id="seeMedia" class="btn btn-primary">Voir les médias</a>
                     </div>
                 </div>
                 <hr>

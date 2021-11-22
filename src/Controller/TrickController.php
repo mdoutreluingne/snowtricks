@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Controller\BaseController;
 
 /**
  * @Route("/trick")
@@ -19,13 +20,35 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 class TrickController extends BaseController
 {
     /**
-     * @Route("/", name="trick_index", methods={"GET"})
+     * @Route("/ajax-delete-mainpicture", name="trick_delete_mainpicture", methods={"POST"})
      */
-    public function index(TrickRepository $trickRepository): Response
+    public function ajaxNew(Request $request, TrickRepository $trickRepository): Response
     {
-        return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll(),
-        ]);
+        // Get data
+        $donnees = json_decode($request->getContent());
+        dump($donnees);
+
+        if (
+            isset($donnees->trick) && !empty($donnees->trick)
+        ) {
+            //Init code
+            $code = 200;
+
+            $trick = $trickRepository->find($donnees->trick);
+
+            $this->checkPictureExist($trick);
+
+            //Set null main picture
+            $trick->setMainPicture(null);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($trick);
+            $em->flush();
+
+            return new Response('Ok', $code);
+        }
+
+        return new Response('Données incomplètes', 404);
     }
 
     /**
@@ -39,7 +62,7 @@ class TrickController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadMainPicture($form, $trick);
+            $this->uploadMainPicture($form, "main_picture", $trick);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
@@ -59,13 +82,14 @@ class TrickController extends BaseController
     /**
      * @Route("/{slug}", name="trick_show", methods={"GET"})
      */
-    public function show(Trick $trick, PictureRepository $pictureRepository, ConvertUrlVideoService $convertUrlVideoService): Response
+    public function show(Trick $trick): Response
     {
-        //dd();
+        $this->isGranted("ROLE_USER") ? $this->get('session')->set('trick', $trick) : "";
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'pictures' => $pictureRepository->findBy(['trick' => $trick]),
-            'videos' => $convertUrlVideoService->VidProviderUrl2Player($trick)
+            'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
+            'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick)
         ]);
     }
 
@@ -73,13 +97,13 @@ class TrickController extends BaseController
      * @IsGranted("ROLE_USER")
      * @Route("/{slug}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trick $trick, PictureRepository $pictureRepository): Response
+    public function edit(Request $request, Trick $trick): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadMainPicture($form, $trick);
+            $this->uploadMainPicture($form, "main_picture", $trick);
             
             $this->getDoctrine()->getManager()->flush();
 
@@ -91,7 +115,8 @@ class TrickController extends BaseController
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
-            'pictures' => $pictureRepository->findBy(['trick' => $trick])
+            'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
+            'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick)
         ]);
     }
 
@@ -110,14 +135,5 @@ class TrickController extends BaseController
         }
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
-    }
-
-    public function uploadMainPicture($form, $object): void
-    {
-        //We recover the transmitted avatar
-        $avatar = $form->get('main_picture')->getData();
-
-        //Call function for manage avatar
-        $this->managePicture($avatar, $object);
     }
 }

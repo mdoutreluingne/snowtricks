@@ -420,7 +420,7 @@ h6 {
   height: 100% !important;
   min-height: 100% !important;
   min-width: 100% !important;
-  padding: 40vh 0 !important;
+  padding: 42vh 0 !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-attachment: scroll !important;
@@ -501,7 +501,7 @@ h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 20px 0;
   overflow: hidden;
 }
 

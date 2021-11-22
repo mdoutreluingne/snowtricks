@@ -1,3 +1,9 @@
+{% import 'macros/icon-collection.html.twig' as utils %}
+{% import 'macros/alertes.html.twig' as flash %}
+
+{# Flashes message #}
+{{ flash.alert(app.flashes) }}
+{% set actionType = action is defined ? action : "" %}
 <div class="row justify-content-md-center" id="media">
     {# Display pictures collection #}
     <div class="col-md-6">
@@ -17,23 +23,33 @@
             </div>
             {% endif %}
             
+            
             {% for picture in pictures %}
             <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
                 <a href="/img/tricks/{{ picture.name }}" class="">
                     <img class="img-fluid trickimages" src="/img/tricks/{{ picture.name }}" />
                 </a>
+                {# Link icon pictures collection #}
+                {{ utils.editDeleteIcon("picture", picture.id, actionType) }}
             </div>
             {% endfor %}
+            {# Link add icon pictures collection #}
+            {{ utils.addIcon("picture", actionType) }}
         </div>
     </div>
     {# Display videos collection #}
     <div class="col-md-6">
         <div class="row">
+            {# Link add icon videos collection #}
+            {{ utils.addIcon("video", actionType) }}
             {% for video in videos %}
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4 trickvideos">
-                {{ video|raw }}
-            </div>
+                {{ video['iframe']|raw }}
+                {# Link icon videos collection #}
+                {{ utils.editDeleteIcon("video", video['id'], actionType) }}
+            </div>                
             {% endfor %}
+            
         </div>
     </div>
 </div>

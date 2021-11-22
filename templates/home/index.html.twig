@@ -37,8 +37,8 @@
             </div>
 
             {# Flashes message #}
-            {% import 'macros/alertes.html.twig' as utils %}
-            {{ utils.alert(app.flashes) }}
+            {% import 'macros/alertes.html.twig' as flash %}
+            {{ flash.alert(app.flashes) }}
 
             <div class="row">
                 {% for trick in tricks %}

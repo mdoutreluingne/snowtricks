@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Trick;
 use App\Entity\User;
+use App\Entity\Trick;
+use App\Entity\Picture;
+use App\Repository\PictureRepository;
+use App\Service\ConvertUrlVideoService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,11 +21,32 @@ class BaseController extends AbstractController
      * @var UserPasswordEncoderInterface
      */
     protected $passwordEncoder;
+    /**
+     * @var ConvertUrlVideoService
+     */
+    protected $convertUrlVideoService;
+    /**
+     * @var PictureRepository
+     */
+    protected $pictureRepository;
 
     public function __construct(
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        ConvertUrlVideoService $convertUrlVideoService,
+        PictureRepository $pictureRepository
     ) {
         $this->passwordEncoder = $passwordEncoder;
+        $this->convertUrlVideoService = $convertUrlVideoService;
+        $this->pictureRepository = $pictureRepository;
+    }
+
+    public function uploadMainPicture($form, $fieldName, $object): void
+    {
+        //We recover the transmitted avatar
+        $avatar = $form->get($fieldName)->getData();
+
+        //Call function for manage avatar
+        $this->managePicture($avatar, $object);
     }
 
     /**
@@ -35,25 +59,21 @@ class BaseController extends AbstractController
     public function managePicture($pictures, $object): void
     {   
         if ($pictures != null) {
+            $this->checkPictureExist($object);
+            $file = $this->generateUniqueName($pictures);
             
             switch (get_class($object)) {
                 case User::class:
-                    $this->checkPictureExist($object);
-
-                    $file = $this->generateUniqueName($pictures);
-
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_AVATAR);
-
                     $object->setAvatar($file);
                     break;
                 case Trick::class:
-                    $this->checkPictureExist($object);
-
-                    $file = $this->generateUniqueName($pictures);
-
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_TRICK);
-
                     $object->setMainPicture($file);
+                    break;
+                case Picture::class:
+                    $this->movePicture($pictures, $file, self::KEY_DIRECTORY_TRICK);
+                    $object->setName($file);
                     break;
                 default:
             }
@@ -66,7 +86,7 @@ class BaseController extends AbstractController
      * @param mixed $object
      * @return void
      */
-    private function checkPictureExist($object): void
+    public function checkPictureExist($object): void
     {
         switch (get_class($object)) {
             case User::class:
@@ -81,6 +101,14 @@ class BaseController extends AbstractController
                 if ($object->getMainPicture() != null) {
                     //We get the fullname of the document
                     $name = $object->getMainPicture();
+                    //Delete document in the folder
+                    unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
+                }
+                break;
+            case Picture::class:
+                if ($object->getName() != null) {
+                    //We get the fullname of the document
+                    $name = $object->getName();
                     //Delete document in the folder
                     unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
                 }
