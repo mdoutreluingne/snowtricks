@@ -2,18 +2,82 @@
 
 {% block title %}Modifier une figure{% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('deleteMainPicture') }}
+{% endblock %}
+
 {% block body %}
-<div class="wrapper zero-raduis panel-admin">
-    <div id="formContent">
-
-        <div class="first">
-            <h2 class="my-3">Modifier une figure</h2>
+{{ form_start(form) }}
+{# Trick header #}
+<header class="img-fluid"
+    style="height: 90vh;background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff
+    100%), url('/img/tricks/{{ trick.mainPicture != null ? trick.mainPicture : 'default.jpg'}}');background-repeat: no-repeat;background-size: cover;">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <h1 class="text-uppercase mx-auto my-0">{{ form_widget(form.name) }}</h1>
         </div>
-
-        {{ include('trick/_form.html.twig') }}
-
     </div>
+    {% if app.user %}
+    <div class="operations">
+        <label for="file-input">
+            <i class="fas fa-pencil-alt fa-lg" id="edit-main-picture" data-toggle="tooltip" data-placement="right"
+                title="Modifier l'image à la une"></i>
+            <div class="main_picture">
+                {{ form_row(form.main_picture) }}
+            </div> 
+        </label>
+        
+        <i class="fas fa-trash-alt fa-lg" id="deleteMainPicture" data-trick="{{ trick.id }}" data-toggle="tooltip" data-placement="right" title="Supprimer l'image à la une"></i>
+    </div>
+    {% endif %}
+</header>
+
+
+{# Trick detail #}
+<section id="tricks" class="projects-section">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 text-center">
+                <div class="row justify-content-md-center">
+                </div>
+                {{ include('trick/_trick_collection.html.twig', {'action': 'edit'}) }}
+                <div class="row seeMedia">
+                    <div class="mx-auto">
+                        <a id="seeMedia" class="btn btn-primary">Voir les médias</a>
+                    </div>
+                </div>
+                <hr>
+                <p>{{ form_widget(form.description) }}</p>
+                <hr>
+                <p>{{ form_row(form.category) }}</p>
+                <hr>
+                <span class=" justify-content-md-center">
+                    <span class="btn btn-info"><i class="fa fa-calendar"></i> Publié le
+                        {{ trick.createdAt|date('d/m/Y') }}</span>
+                </span>
+                <span class=" justify-content-md-center">
+                    <span class="btn btn-info"><i class="fa fa-calendar"></i> Modifié le
+                        {{ trick.updatedAt|date('d/m/Y') }}</span>
+                </span>
+                <span class="btn btn-info justify-content-md-center"><i class="fa fa-user"></i> Auteur:
+                    {{ trick.user.username }}</span>
+                <hr>
+            </div>
+        </div>
+    </div>
+</section>
+
+{# Another fields #}
+{{ form_rest(form) }}
+
+{# Button #}
+<div class="col-12 text-center mb-5">
+    {{ include('trick/_delete_form.html.twig', {"btn_delete": true}) }}
+    <button class="btn btn-primary btn-md center-block">{{ button_label|default('Valider') }}</button>
 </div>
+
+{{ form_end(form) }}
 {% endblock %}
 
 {% block footer %}

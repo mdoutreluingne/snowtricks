@@ -6,7 +6,7 @@
 <div class="container-fluid panel-admin">
     <div class="row text-center">
         <div class="col-12">
-            <h3 class="text-center">Administration</h3>
+            <h2 class="text-center">Administration</h2>
         </div>
     </div>
     <div class="row">
@@ -16,11 +16,15 @@
         </div>
     </div>
 
+    {# Flashes message #}
+    {% import 'macros/alertes.html.twig' as flash %}
+    {{ flash.alert(app.flashes) }}
+
     {# Users #}
     <div class="row">
         <div class="col-12">
-            <h5 class="text-center">Utilisateurs</h5>
-            <a href="{{ path('admin_user_new') }}">Créer un nouveau utilisateur</a>
+            <h4 class="text-center title-admin">Utilisateurs</h4>
+            
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -30,21 +34,30 @@
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Compte activé</th>
-                        <th>actions</th>
+                        <th>actions
+                            <a href="{{ path('admin_user_new') }}" data-toggle="tooltip" data-placement="right"
+                                title="Créer un nouveau utilisateur"><i class="fas fa-plus fa-lg"></i></a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in users %}
                     <tr>
                         <td>{{ user.username }}</td>
-                        <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                        <td>
+                            {% for role in user.roles|join(',')|split('ROLE_') %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
                         <td>{{ user.isVerified ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>' }}</td>
                         <td>
-                            <a href="{{ path('admin_user_show', {'id': user.id}) }}">Voir</a>
-                            <a href="{{ path('admin_user_edit', {'id': user.id}) }}">Modifier</a>
+                            <a href="{{ path('admin_user_show', {'id': user.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Voir"><i class="fas fa-eye fa-lg"></i></a>
+                            <a href="{{ path('admin_user_edit', {'id': user.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
                             {{ include('admin/user/_delete_form.html.twig') }}
                         </td>
                     </tr>
@@ -61,8 +74,8 @@
     {# Tricks #}
     <div class="row">
         <div class="col-12">
-            <h5 class="text-center">Figures</h5>
-            <a href="{{ path('trick_new') }}">Créer une nouvelle figure</a>
+            <h4 class="text-center title-admin">Figures</h4>
+            
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -72,21 +85,28 @@
                         <th>Modifier le</th>
                         <th>Category</th>
                         <th>Utilisateur</th>
-                        <th>actions</th>
+                        <th>actions 
+                            <a href="{{ path('trick_new') }}" data-toggle="tooltip" data-placement="right"
+                                title="Ajouter une figure"><i class="fas fa-plus fa-lg"></i></a>
+                        </th>
+                        
                     </tr>
                 </thead>
                 <tbody>
                     {% for trick in tricks %}
                     <tr>
                         <td>{{ trick.name }}</td>
-                        <td>{{ trick.description ?? '' }}</td>
+                        <td>{{ trick.description|length < 150 ? trick.description : trick.description|slice(0, 150) ~ '...' }}</td>
                         <td>{{ trick.createdAt|date('d/m/Y H:i:s') }}</td>
                         <td>{{ trick.updatedAt|date('d/m/Y H:i:s') }}</td>
                         <td>{{ trick.category.name }}</td>
                         <td>{{ trick.user.username }}</td>
                         <td>
-                            <a href="{{ path('trick_show', {'slug': trick.slug}) }}">Voir</a>
-                            <a href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                            <a href="{{ path('trick_show', {'slug': trick.slug}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Voir"><i class="fas fa-eye fa-lg"></i></a>
+                            <a href="{{ path('trick_edit', {'slug': trick.slug}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Modifier"><i
+                                    class="fas fa-pencil-alt fa-lg"></i></a>
                             {{ include('trick/_delete_form.html.twig') }}
                         </td>
                     </tr>
@@ -100,7 +120,51 @@
         </div>
     </div>
 
+    {# Comments #}
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-center title-admin">Commentaires</h4>
 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Figure</th>
+                        <th>Contenu</th>
+                        <th>Créer le</th>
+                        <th>Modifier le</th>
+                        <th>actions
+                            <a href="{{ path('comment_new') }}" data-toggle="tooltip" data-placement="right"
+                                title="Ajouter une figure"><i class="fas fa-plus fa-lg"></i></a>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.user.username }}</td>
+                        <td>{{ comment.trick.name }}</td>
+                        <td>{{ comment.content|length < 150 ? comment.content : comment.content|slice(0, 150) ~ '...' }}</td>
+                        <td>{{ comment.createdAt|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ comment.updatedAt|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('comment_show', {'id': comment.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Voir"><i class="fas fa-eye fa-lg"></i></a>
+                            <a href="{{ path('comment_edit', {'id': comment.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
+                            {{ include('admin/comment/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="11">Aucun enregistrement trouvé</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}

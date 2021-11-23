@@ -1,10 +1,8 @@
 /* AVATAR NAVBAR */
 .avatar {
-  max-width: 33px;
-  min-width: 33px;
-  height: 33px;
-  filter: invert(100%) sepia(0%) saturate(7472%) hue-rotate(165deg)
-    brightness(97%) contrast(108%);
+  max-width: 35px;
+  min-width: 35px;
+  height: 35px;
 }
 
 .fa-user-circle,
@@ -12,8 +10,7 @@
 .fa-bookmark,
 .fa-user-circle,
 .fa-sign-out-alt,
-.fa-sign-in-alt,
-.fa-plus {
+.fa-sign-in-alt {
   font-size: 1.5em !important;
   height: 1.5vh !important;
   margin-top: 1.2vh;
@@ -24,8 +21,8 @@
   display: inline;
 }
 
-.form-delete .fa-trash-alt {
-  font-size: 1.5rem;
+.fa-trash-alt,
+.fa-pencil-alt {
   color: #47bcd4;
 }
 
@@ -35,7 +32,12 @@
   border-radius: 10px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  margin-bottom: 5%;
+  margin-bottom: 15%;
+  transition: all .2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.1);
 }
 
 .card-header img {
@@ -221,4 +223,100 @@ input[type="email"]:placeholder {
 
 .no-medias > p {
   color: grey;
+}
+
+.operations {
+  position: absolute;
+  top: 12vh;
+  right: 10px;
+  border: 2px solid black;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.main_picture {
+  display: none;
+}
+
+.masthead {
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  min-width: 100% !important;
+  padding: 15rem 0 !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: scroll !important;
+  background-size: cover !important;
+}
+
+.trickimages {
+  width: 280px !important;
+  height: 160px !important;
+}
+
+.trickvideos {
+  margin-left: 12%;
+}
+
+/* COMMENT */
+.comments {
+  margin-top: 100px;
+}
+
+#post-add-comment {
+  background-color: #ddd;
+  padding: 19px;
+  border-radius: 4px;
+  margin-bottom: 50px;
+}
+
+.list-comments {
+  margin-bottom: 250px;
+}
+
+.post-comment {
+  margin-bottom: 2em;
+}
+
+.commentnotes {
+  font-size: 13px;
+}
+
+/* Size icon avatar */
+.comment-avatar {
+  font-size: 27px !important;
+}
+
+/* Size img avatar */
+.avatar-comment {
+  height: 45px;
+  width: 45px;
+}
+
+.form-card {
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.56s cubic-bezier(0.25, 0.8, 0.25, 1);
+  max-width: 700px;
+  padding: 25px;
+  margin: 15px auto;
+}
+
+.form-card:hover,
+.form-card:focus {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.form-card:focus-within {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* ADMIN */
+.title-admin {
+  color: #47bcd4;
+  letter-spacing: 1px;
 }

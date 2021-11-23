@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
- * @ORM\HasLifecycleCallbacks()
  */
 class Trick
 {
@@ -71,6 +70,11 @@ class Trick
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $main_picture;
 
     public function __construct()
     {
@@ -258,32 +262,15 @@ class Trick
         return $this;
     }
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function OnPrePersist(): void
+    public function getMainPicture(): ?string
     {
-        $this->created_at = new \DateTimeImmutable();
-        $this->updated_at = new \DateTimeImmutable();
-        $this->generateSlug();
+        return $this->main_picture;
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
-    public function OnPreUpdate(): void
+    public function setMainPicture(?string $main_picture): self
     {
-        $this->updated_at = new \DateTimeImmutable();
-        $this->generateSlug();
-    }
+        $this->main_picture = $main_picture;
 
-    /**
-     * Generate Slug
-     *
-     * @return string
-     */
-    public function generateSlug(): string
-    {
-        return $this->slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $this->getName()), '-'));
+        return $this;
     }
 }

@@ -1,0 +1,24 @@
+{% macro editDeleteIcon(type, id, action) %}
+    {% if action == 'edit' %}
+        <div class="mt-2 mb-2">
+            {# Edit #}
+            <a href="{{ path(type~'_edit', {'id': id}) }}">
+                <i class="fas fa-pencil-alt fa-lg" data-toggle="tooltip" data-placement="right" title="Modifier"></i>
+            </a>
+            {# Delete #}
+            {% include type~'/_delete_form.html.twig' with {'id': id} %}
+        </div>
+    {% endif %}
+{% endmacro%}
+
+{% macro addIcon(type, action) %}
+    {% if action == 'edit' %}
+        <div class="mt-2">
+            {# Add #}
+            <a href="{{ path(type~'_new') }}">
+                <i class="fas fa-plus fa-lg" data-toggle="tooltip" data-placement="right"
+                    title="Ajouter une {{ type }}"></i>
+            </a>
+        </div>
+    {% endif %}
+{% endmacro %}
