@@ -36,3 +36,6 @@ services:
     App\EventSubscriber\TrickSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber' }
+    App\EventSubscriber\CommentSubscriber:
+        tags:
+            - { name: 'doctrine.event_subscriber' }

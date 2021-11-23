@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Comment;
 use App\Form\CommentType;
@@ -16,16 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/", name="comment_index", methods={"GET"})
-     */
-    public function index(CommentRepository $commentRepository): Response
-    {
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -39,10 +29,12 @@ class CommentController extends AbstractController
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('comment_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
+
+            return $this->redirectToRoute('admin', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('comment/new.html.twig', [
+        return $this->render('admin/comment/new.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
         ]);
@@ -53,7 +45,7 @@ class CommentController extends AbstractController
      */
     public function show(Comment $comment): Response
     {
-        return $this->render('comment/show.html.twig', [
+        return $this->render('admin/comment/show.html.twig', [
             'comment' => $comment,
         ]);
     }
@@ -69,10 +61,12 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('comment_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', "Les informations ont été mises à jour avec succès !");
+
+            return $this->redirectToRoute('admin', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('comment/edit.html.twig', [
+        return $this->render('admin/comment/edit.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
         ]);
@@ -87,8 +81,10 @@ class CommentController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
+
+            $this->addFlash('success', "Le commentaire a été supprimée avec succès !");
         }
 
-        return $this->redirectToRoute('comment_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin', [], Response::HTTP_SEE_OTHER);
     }
 }

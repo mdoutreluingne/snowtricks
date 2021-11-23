@@ -2,13 +2,13 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Comment;
 use Doctrine\ORM\Events;
-use App\Entity\Trick;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\Security\Core\Security;
 
-class TrickSubscriber implements EventSubscriber
+class CommentSubscriber implements EventSubscriber
 {
     /**
      * @var Security
@@ -30,51 +30,39 @@ class TrickSubscriber implements EventSubscriber
 
     public function prePersist(LifecycleEventArgs $args): void
     {
-        $this->persistTrick($args);
-        $this->saveTrick($args);
+        $this->persistComment($args);
+        $this->saveComment($args);
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
     {
-        $this->saveTrick($args);
+        $this->saveComment($args);
     }
 
-    private function persistTrick(LifecycleEventArgs $args): void
+    private function persistComment(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
-        if (!$entity instanceof Trick) {
+        if (!$entity instanceof Comment) {
             return;
         }
 
         $args->getObject()->setCreatedAt(new \DateTimeImmutable());
+        $entity->setUser($this->security->getUser());
     }
 
-    private function saveTrick(LifecycleEventArgs $args): void
+    private function saveComment(LifecycleEventArgs $args): void
     {
         $entity = $args->getObject();
 
         // if this subscriber only applies to certain entity types,
         // add some code to check the entity type as early as possible
-        if (!$entity instanceof Trick) {
+        if (!$entity instanceof Comment) {
             return;
         }
 
         $entity->setUpdatedAt(new \DateTimeImmutable());
-        $entity->setSlug($this->generateSlug($entity->getName()));
-        $entity->setUser($this->security->getUser());
-    }
-
-    /**
-     * Generate Slug
-     *
-     * @param string $name
-     * @return string
-     */
-    private function generateSlug(string $name): string
-    {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
     }
 }

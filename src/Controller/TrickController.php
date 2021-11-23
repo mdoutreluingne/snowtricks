@@ -3,16 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Entity\Comment;
 use App\Form\TrickType;
-use App\Repository\PictureRepository;
+use App\Form\CommentType;
+use App\Controller\BaseController;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Repository\PictureRepository;
 use App\Service\ConvertUrlVideoService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use App\Controller\BaseController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/trick")
@@ -80,16 +83,37 @@ class TrickController extends BaseController
     }
 
     /**
-     * @Route("/{slug}", name="trick_show", methods={"GET"})
+     * @Route("/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show(Trick $trick): Response
+    public function show(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
+        /* Save trick if is a user */
         $this->isGranted("ROLE_USER") ? $this->get('session')->set('trick', $trick) : "";
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setTrick($trick);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
+
+            return $this->redirectToRoute('trick_show', ["slug" => $trick->getSlug()], Response::HTTP_SEE_OTHER);
+        }
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
-            'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick)
+            'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick),
+            'comments' => $commentRepository->findBy(['trick' => $trick], ['created_at' => 'DESC']),
+            'countComments' => $commentRepository->count(['trick' => $trick]),
+            'comment' => $comment,
+            'form' => $form->createView(),
         ]);
     }
 

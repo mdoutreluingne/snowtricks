@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,11 +14,12 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin", name="admin")
      */
-    public function index(UserRepository $userRepository, TrickRepository $trickRepository): Response
+    public function index(UserRepository $userRepository, TrickRepository $trickRepository, CommentRepository $commentRepository): Response
     {
         return $this->render('admin/index.html.twig', [
             'users' => $userRepository->findAll(),
-            'tricks' => $trickRepository->findAll()
+            'tricks' => $trickRepository->findAll(),
+            'comments' => $commentRepository->findAll()
         ]);
     }
 }

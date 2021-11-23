@@ -16,6 +16,10 @@
         </div>
     </div>
 
+    {# Flashes message #}
+    {% import 'macros/alertes.html.twig' as flash %}
+    {{ flash.alert(app.flashes) }}
+
     {# Users #}
     <div class="row">
         <div class="col-12">
@@ -40,7 +44,11 @@
                     {% for user in users %}
                     <tr>
                         <td>{{ user.username }}</td>
-                        <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+                        <td>
+                            {% for role in user.roles|join(',')|split('ROLE_') %}
+                                {{ role }}
+                            {% endfor %}
+                        </td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.firstname }}</td>
                         <td>{{ user.lastname }}</td>
@@ -88,7 +96,7 @@
                     {% for trick in tricks %}
                     <tr>
                         <td>{{ trick.name }}</td>
-                        <td>{{ trick.description ?? '' }}</td>
+                        <td>{{ trick.description|length < 150 ? trick.description : trick.description|slice(0, 150) ~ '...' }}</td>
                         <td>{{ trick.createdAt|date('d/m/Y H:i:s') }}</td>
                         <td>{{ trick.updatedAt|date('d/m/Y H:i:s') }}</td>
                         <td>{{ trick.category.name }}</td>
@@ -112,7 +120,51 @@
         </div>
     </div>
 
+    {# Comments #}
+    <div class="row">
+        <div class="col-12">
+            <h4 class="text-center title-admin">Commentaires</h4>
 
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Figure</th>
+                        <th>Contenu</th>
+                        <th>Créer le</th>
+                        <th>Modifier le</th>
+                        <th>actions
+                            <a href="{{ path('comment_new') }}" data-toggle="tooltip" data-placement="right"
+                                title="Ajouter une figure"><i class="fas fa-plus fa-lg"></i></a>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <td>{{ comment.user.username }}</td>
+                        <td>{{ comment.trick.name }}</td>
+                        <td>{{ comment.content|length < 150 ? comment.content : comment.content|slice(0, 150) ~ '...' }}</td>
+                        <td>{{ comment.createdAt|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ comment.updatedAt|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <a href="{{ path('comment_show', {'id': comment.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Voir"><i class="fas fa-eye fa-lg"></i></a>
+                            <a href="{{ path('comment_edit', {'id': comment.id}) }}" data-toggle="tooltip"
+                                data-placement="right" title="Modifier"><i class="fas fa-pencil-alt fa-lg"></i></a>
+                            {{ include('admin/comment/_delete_form.html.twig') }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="11">Aucun enregistrement trouvé</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 
 {% block footer %}

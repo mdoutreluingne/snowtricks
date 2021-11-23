@@ -285,8 +285,15 @@ input[type="email"]:placeholder {
   font-size: 13px;
 }
 
+/* Size icon avatar */
 .comment-avatar {
   font-size: 27px !important;
+}
+
+/* Size img avatar */
+.avatar-comment {
+  height: 45px;
+  width: 45px;
 }
 
 .form-card {
