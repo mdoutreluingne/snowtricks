@@ -6,20 +6,9 @@ use Doctrine\ORM\Events;
 use App\Entity\Trick;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Security;
 
 class TrickSubscriber implements EventSubscriber
 {
-    /**
-     * @var Security
-     */
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     public function getSubscribedEvents(): array
     {
         return [
@@ -64,7 +53,6 @@ class TrickSubscriber implements EventSubscriber
 
         $entity->setUpdatedAt(new \DateTimeImmutable());
         $entity->setSlug($this->generateSlug($entity->getName()));
-        $entity->setUser($this->security->getUser());
     }
 
     /**

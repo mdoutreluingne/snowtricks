@@ -2,13 +2,15 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Trick;
-use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class TrickFixtures extends Fixture
+class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * @var UserRepository
@@ -64,10 +66,17 @@ class TrickFixtures extends Fixture
             $newTrick->setCategory($category);
             $newTrick->setDescription($tricksDescription[$i]);
 
-            $i ++;
+            $i++;
             $manager->persist($newTrick);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            AppFixtures::class, CategoryFixtures::class
+        ];
     }
 }

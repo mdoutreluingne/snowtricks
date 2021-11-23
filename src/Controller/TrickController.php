@@ -65,6 +65,7 @@ class TrickController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($this->getUser());
             $this->uploadMainPicture($form, "main_picture", $trick);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -96,6 +97,7 @@ class TrickController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
