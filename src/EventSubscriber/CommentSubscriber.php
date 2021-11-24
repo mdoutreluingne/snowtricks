@@ -6,20 +6,9 @@ use App\Entity\Comment;
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Symfony\Component\Security\Core\Security;
 
 class CommentSubscriber implements EventSubscriber
 {
-    /**
-     * @var Security
-     */
-    private $security;
-
-    public function __construct(Security $security)
-    {
-        $this->security = $security;
-    }
-
     public function getSubscribedEvents(): array
     {
         return [
@@ -50,7 +39,6 @@ class CommentSubscriber implements EventSubscriber
         }
 
         $args->getObject()->setCreatedAt(new \DateTimeImmutable());
-        $entity->setUser($this->security->getUser());
     }
 
     private function saveComment(LifecycleEventArgs $args): void

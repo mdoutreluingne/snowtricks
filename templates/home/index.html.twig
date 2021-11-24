@@ -3,6 +3,7 @@
 {% block javascripts %}
 {{ parent() }}
 {{ encore_entry_script_tags('theme') }}
+{{ encore_entry_script_tags('loadMoreTricks') }}
 {% endblock %}
 
 {% block body %}
@@ -67,14 +68,18 @@
                     </div>
                 </div>
                 {% endfor %}
+                
+            </div>
+            <div class="row trick-home" {% if app.user %} data-loggedin="true" {% else %} data-loggedin="false" {% endif %}>
             </div>
         </div>
-    </section><!-- End Services Section -->
+    </section>{# End Services Section #}
 
     <div class="container">
         <div class="row">
-            <div class="col-12 text-center loadmore-tricks">
-                <a href="" class="btn btn-info">Voir plus</a>
+            <div class="col-12 text-center section-loadmore-tricks">
+                <button class="btn btn-info loadmore-tricks">Voir plus</button>
+                <input type="hidden" id="showMoreOffset" value="8"/>
             </div>
         </div>
     </div>

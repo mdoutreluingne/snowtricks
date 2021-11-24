@@ -7,13 +7,14 @@ use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
 use App\Controller\BaseController;
-use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Repository\CommentRepository;
 use App\Repository\PictureRepository;
 use App\Service\ConvertUrlVideoService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -55,6 +56,29 @@ class TrickController extends BaseController
     }
 
     /**
+     * @Route("/loadmore", name="trick_loadmore", methods={"POST"})
+     */
+    public function loadMoreTricks(Request $request, TrickRepository $trickRepository): JsonResponse
+    {
+        if ($request->isXmlHttpRequest()) {
+            $data = [];
+            $tricks = $trickRepository->findLoadMoreTricks($request->request->get('offset'), $trickRepository->count([]));
+
+            foreach ($tricks as $trick) {
+                $data[] = [
+                    'id' => $trick->getId(),
+                    'imageName' => $trick->getMainPicture(),
+                    'category' => $trick->getCategory()->getName(),
+                    'name' => $trick->getName(),
+                    'slug' => $trick->getSlug()
+                ];
+            }
+
+            return new JsonResponse($data);
+        }
+    }
+
+    /**
      * @IsGranted("ROLE_USER")
      * @Route("/new", name="trick_new", methods={"GET","POST"})
      */
@@ -65,6 +89,7 @@ class TrickController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($this->getUser());
             $this->uploadMainPicture($form, "main_picture", $trick);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -96,6 +121,7 @@ class TrickController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setTrick($trick);
+            $comment->setUser($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
@@ -110,7 +136,7 @@ class TrickController extends BaseController
             'trick' => $trick,
             'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
             'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick),
-            'comments' => $commentRepository->findBy(['trick' => $trick], ['created_at' => 'DESC']),
+            'comments' => $commentRepository->findCommentsLastUpdated($trick),
             'countComments' => $commentRepository->count(['trick' => $trick]),
             'comment' => $comment,
             'form' => $form->createView(),
@@ -146,17 +172,15 @@ class TrickController extends BaseController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{slug}", name="trick_delete", methods={"POST"})
+     * @Route("/{slug}/delete", name="trick_delete", methods={"POST"})
      */
     public function delete(Request $request, Trick $trick): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($trick);
-            $entityManager->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($trick);
+        $entityManager->flush();
 
-            $this->addFlash('success', $trick->getName() . " a été supprimée avec succès !");
-        }
+        $this->addFlash('success', $trick->getName() . " a été supprimée avec succès !");
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
