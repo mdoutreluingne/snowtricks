@@ -64,11 +64,6 @@
   scrollY(select("#header"), "header-scrolled");
 
   /**
-   * Back to top button
-   */
-  scrollY(select(".back-to-top"), "active");
-
-  /**
    * Mobile nav toggle
    */
   on("click", ".mobile-nav-toggle", function (e) {

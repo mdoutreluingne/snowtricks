@@ -5,16 +5,40 @@ namespace App\Controller\Admin;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/comment")
  */
 class CommentController extends AbstractController
 {
+    /**
+     * @Route("/loadmore", name="comment_loadmore", methods={"POST"})
+     */
+    public function loadMoreComments(Request $request, CommentRepository $commentRepository): JsonResponse
+    {
+        if ($request->isXmlHttpRequest()) {
+            $data = [];
+            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]));
+
+            foreach ($comments as $comment) {
+                $data[] = [
+                    'id' => $comment->getId(),
+                    'user' => $comment->getUser()->getUsername(),
+                    'avatar' => $comment->getUser()->getAvatar(),
+                    'created' => $comment->getCreatedAt()->format('d/m/Y H:i'),
+                    'content' => $comment->getContent(),
+                ];
+            }
+
+            return new JsonResponse($data);
+        }
+    }
+
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
      */

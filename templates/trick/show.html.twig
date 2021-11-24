@@ -2,6 +2,11 @@
 
 {% block title %}{{ trick.name }}{% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+{{ encore_entry_script_tags('loadMoreComments') }}
+{% endblock %}
+
 {% block body %}
 {# Trick header #}
 <header class="img-fluid masthead"
@@ -109,6 +114,18 @@
                             {{ comment.content|nl2br }}
                         </div>
                     {% endfor %}
+                </div>
+
+                <div class="row post-comment" id="list-comments">
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 text-center section-loadmore-comments">
+                            <button class="btn btn-info loadmore-comments">Voir plus</button>
+                            <input type="hidden" id="showMoreOffsetComments" value="8" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
