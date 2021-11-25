@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    SnowTricks - Oups ! - {{ status_code }}
+{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('customError') }}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('customError') }}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block body %}
+<div id="errorBlock">
+    <p id="imageError"><img src="/img/error.png" alt="Erreur {{ status_code }} !" /></p>
+    <p>Erreur {{ status_code }}</p>
+    <p>Oups ! Une erreur inconnue est survenue. <br /> Retour à <a href="{{ path('home') }}"
+            title="Retour à l'accueil">l'accueil</a></p>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

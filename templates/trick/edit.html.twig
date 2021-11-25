@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block body %}
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
 {# Trick header #}
 <header class="img-fluid"
     style="height: 90vh;background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff

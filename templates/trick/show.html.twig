@@ -67,7 +67,7 @@
             <div class="col-md-8 col-sm-12">
                 {# Comment form #}
                 {% if app.user %}
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
                         <div class="row">
                             <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 d-inline">
                                 {{ form_row(form.content) }}
@@ -119,14 +119,18 @@
                 <div class="row post-comment" id="list-comments">
                 </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 text-center section-loadmore-comments">
-                            <button class="btn btn-info loadmore-comments">Voir plus</button>
-                            <input type="hidden" id="showMoreOffsetComments" value="8" />
+                {# Display button for load more comments #}
+                {% if countComments > 8 %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 text-center section-loadmore-comments">
+                                <button class="btn btn-info loadmore-comments">Voir plus</button>
+                                <input type="hidden" id="showMoreOffsetComments" value="8" />
+                                <input type="hidden" id="trickId" value="{{ trick.id }}" />
+                            </div>
                         </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>

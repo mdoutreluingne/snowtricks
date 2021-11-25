@@ -35,8 +35,6 @@ class PictureType extends AbstractType
                 ],
                 'attr' => ['placeholder' => "Choisir l'image à la une"]
             ])
-            ->add('updated_at')
-            ->add('size')
             ->add('trick', EntityType::class, [
                 'attr' => [
                     'readonly' => true,

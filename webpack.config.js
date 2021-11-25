@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('theme', './assets/js/theme.js')
+    .addEntry('customError', './assets/js/customError.js')
     .addEntry('deleteMainPicture', './assets/js/deleteMainPicture.js')
     .addEntry('loadMoreTricks', './assets/js/loadMoreTricks.js')
     .addEntry('loadMoreComments', './assets/js/loadMoreComments.js')
