@@ -31,7 +31,7 @@ Puis, "yarn install" pour les dépendances front du projet :
 yarn install
 ```
 
-Si vous utilez NPM au lieu de YARN, voici un [lien vers la documentation](http://snowtricks.thomas-claireau.fr/).
+Si vous utilez NPM au lieu de YARN, voici un [lien vers la documentation](https://symfony.com/doc/current/frontend/encore/installation.html#installing-encore-in-symfony-applications).
 
 ### Paramétrage et accès à la base de données
 
