@@ -29,12 +29,15 @@
             <h2 class="my-3">Connexion</h2>
         </div>
 
-        <!-- Login Form -->
+        {# Login Form #}
         <form method="post">
             {% if error %}
             <div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}
             </div>
             {% endif %}
+            {# Flashes message #}
+            {% import 'macros/alertes.html.twig' as flash %}
+            {{ flash.alert(app.flashes) }}
 
             <label for="inputUsername">Nom d'utilisateur</label>
             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"

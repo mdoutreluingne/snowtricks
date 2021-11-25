@@ -3,12 +3,14 @@
 
     $(".loadmore-comments").click(function () {
         var offset = $("#showMoreOffsetComments").val();
+        var trick = $("#trickId").val();
 
         $.ajax({
             type: 'POST',
             url: '/comment/loadmore',
             data: {
-                offset: offset
+                offset: offset,
+                trick: trick
             },
             success: function (data) {
 

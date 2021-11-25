@@ -31,9 +31,11 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findLoadMoreComments($offset, $end)
+    public function findLoadMoreComments($offset, $end, Trick $trick)
     {
         return $this->createQueryBuilder('c')
+            ->andWhere('c.trick = :trick')
+            ->setParameter('trick', $trick)
             ->orderBy('c.created_at', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($end)

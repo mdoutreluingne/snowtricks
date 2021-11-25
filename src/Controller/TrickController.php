@@ -26,15 +26,13 @@ class TrickController extends BaseController
     /**
      * @Route("/ajax-delete-mainpicture", name="trick_delete_mainpicture", methods={"POST"})
      */
-    public function ajaxNew(Request $request, TrickRepository $trickRepository): Response
+    public function ajaxDeleteMainPicture(Request $request, TrickRepository $trickRepository): Response
     {
         // Get data
         $donnees = json_decode($request->getContent());
         dump($donnees);
 
-        if (
-            isset($donnees->trick) && !empty($donnees->trick)
-        ) {
+        if (isset($donnees->trick) && !empty($donnees->trick)) {
             //Init code
             $code = 200;
 
@@ -112,8 +110,7 @@ class TrickController extends BaseController
      */
     public function show(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
-        /* Save trick if is a user */
-        $this->isGranted("ROLE_USER") ? $this->get('session')->set('trick', $trick) : "";
+        $this->setSessionTrick($trick);
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
@@ -149,6 +146,8 @@ class TrickController extends BaseController
      */
     public function edit(Request $request, Trick $trick): Response
     {
+        $this->setSessionTrick($trick);
+
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
@@ -183,5 +182,17 @@ class TrickController extends BaseController
         $this->addFlash('success', $trick->getName() . " a été supprimée avec succès !");
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * set Trick in session if user
+     *
+     * @param Trick $trick
+     * @return void
+     */
+    public function setSessionTrick(Trick $trick): void
+    {
+        /* Save trick if is a user */
+        $this->isGranted("ROLE_USER") ? $this->get('session')->set('trick', $trick) : "";
     }
 }

@@ -24,6 +24,9 @@
 {% for flashError in app.flashes('verify_email_error') %}
 <div class="alert alert-danger" role="alert">{{ flashError }}</div>
 {% endfor %}
+{# Flashes message #}
+{% import 'macros/alertes.html.twig' as flash %}
+{{ flash.alert(app.flashes) }}
 
 <div class="wrapper zero-raduis">
     <div id="formContent">
@@ -32,7 +35,7 @@
             <h2 class="my-3">S'inscrire</h2>
         </div>
 
-        {{ form_start(registrationForm) }}
+        {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'} }) }}
             {{ form_row(registrationForm.username) }}
 
             {# Input Email #}
@@ -41,7 +44,6 @@
                     {{ form_label(registrationForm.email) }}
                 </div>
                 {{ form_widget(registrationForm.email) }}
-                {{ form_errors(registrationForm.email) }}
             </div>
             
 

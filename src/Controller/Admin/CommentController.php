@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,11 +20,11 @@ class CommentController extends AbstractController
     /**
      * @Route("/loadmore", name="comment_loadmore", methods={"POST"})
      */
-    public function loadMoreComments(Request $request, CommentRepository $commentRepository): JsonResponse
+    public function loadMoreComments(Request $request, CommentRepository $commentRepository, TrickRepository $trickRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             $data = [];
-            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]));
+            $comments = $commentRepository->findLoadMoreComments($request->request->get('offset'), $commentRepository->count([]), $trickRepository->find($request->request->get('trick')));
 
             foreach ($comments as $comment) {
                 $data[] = [

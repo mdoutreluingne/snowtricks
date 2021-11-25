@@ -42,11 +42,12 @@ class BaseController extends AbstractController
 
     public function uploadMainPicture($form, $fieldName, $object): void
     {
-        //We recover the transmitted avatar
-        $avatar = $form->get($fieldName)->getData();
+        //We recover the transmitted picture
+        $picture = $form->get($fieldName)->getData();
+        
 
-        //Call function for manage avatar
-        $this->managePicture($avatar, $object);
+        //Call function for manage picture
+        $this->managePicture($picture, $object);
     }
 
     /**
@@ -72,8 +73,10 @@ class BaseController extends AbstractController
                     $object->setMainPicture($file);
                     break;
                 case Picture::class:
+                    $object->setSize($pictures->getClientSize());
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_TRICK);
                     $object->setName($file);
+                    $object->setUpdatedAt(new \DateTimeImmutable());
                     break;
                 default:
             }
