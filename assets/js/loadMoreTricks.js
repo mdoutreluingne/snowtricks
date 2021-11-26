@@ -29,7 +29,7 @@
                     html += '<div class="card-body">';
                     html += '<span class="tag tag-teal">' + data[i]['category'] + '</span>';
                     html += '<h4><a href="' + urlViewTrick + '" class="title_trick">' + data[i]['name'] + '</a>';
-                    if (loggedin == true) {
+                    if (loggedin === true) {
                         html += '<a href="' + urlEditTrick + '" data-toggle="tooltip" data-placement="right" title="Modifier une figure"><i class="fas fa-pencil-alt"></i></a>';
                         html += '<form method="post" class="form-delete" action="'+ urlDeleteTrick + '" onsubmit = "return confirm(\'Êtes-vous sûr de bien vouloir supprimer cet élément ?\');" >';
                         html += '<button class="btn" data-toggle="tooltip" data-placement="right" title="Supprimer"><i class="fas fa-trash-alt fa-lg"></i></button>';
