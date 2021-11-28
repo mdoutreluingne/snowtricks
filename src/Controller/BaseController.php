@@ -58,12 +58,10 @@ class BaseController extends AbstractController
      */
     public function managePicture($pictures, $object): void
     {   
-        if ($pictures != null) {
-            //$this->checkPictureExist($object);
-            
-            
+        if ($pictures != null) {            
             switch (get_class($object)) {
                 case User::class:
+                    $this->checkPictureExist($object);
                     $file = $this->generateUniqueName($pictures);
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_AVATAR);
                     $object->setAvatar($file);
@@ -109,22 +107,6 @@ class BaseController extends AbstractController
                     unlink($this->getParameter(self::KEY_DIRECTORY_AVATAR) . '/' . $name);
                 }
                 break;
-            /* case Trick::class:
-                if ($object->getMainPicture() != null) {
-                    //We get the fullname of the document
-                    $name = $object->getMainPicture();
-                    //Delete document in the folder
-                    unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
-                }
-                break;
-            case Picture::class:
-                if ($object->getName() != null) {
-                    //We get the fullname of the document
-                    $name = $object->getName();
-                    //Delete document in the folder
-                    unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
-                }
-                break; */
             default:
         }
     }

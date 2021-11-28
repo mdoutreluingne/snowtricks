@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="panel-admin">
-    <h1>User</h1>
+    <h1>Utilisateur {{ user.username }}</h1>
 
     <table class="table">
         <tbody>
@@ -13,7 +13,7 @@
                 <td>{{ user.id }}</td>
             </tr>
             <tr>
-                <th>Username</th>
+                <th>Nom d'utilisateur</th>
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
@@ -25,15 +25,15 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Firstname</th>
+                <th>Prénom</th>
                 <td>{{ user.firstname }}</td>
             </tr>
             <tr>
-                <th>Lastname</th>
+                <th>Nom</th>
                 <td>{{ user.lastname }}</td>
             </tr>
             <tr>
-                <th>IsVerified</th>
+                <th>Est vérifié</th>
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>

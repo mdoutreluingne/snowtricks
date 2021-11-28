@@ -67,7 +67,7 @@ class Trick
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
      */
     private $comments;
 

@@ -60,21 +60,17 @@ class TrickController extends BaseController
     /**
      * @Route("/loadmore", name="trick_loadmore", methods={"POST"})
      */
-    public function loadMoreTricks(Request $request, TrickRepository $trickRepository): JsonResponse
+    public function loadMoreTricks(Request $request, TrickRepository $trickRepository, PictureRepository $pictureRepository): JsonResponse
     {
         if ($request->isXmlHttpRequest()) {
             $data = [];
             $tricks = $trickRepository->findLoadMoreTricks($request->request->get('offset'), $trickRepository->count([]));
 
             foreach ($tricks as $trick) {
-                $pictures = $trick->getPictures();
-                if (0 != count($pictures)) {
-                    //Get first picture for the trick
-                    $pictureName = $pictures->first()->getName();
-                } else {
-                    $pictureName = '';
-                }
-
+                //Get first picture for the trick
+                $picture = $pictureRepository->findOneBy(['trick' => $trick], ['updated_at' => 'DESC'], 1);
+                $pictureName = $picture != null ? $picture->getName() : "default.jpg";
+                
                 $data[] = [
                     'id' => $trick->getId(),
                     'imageName' => $pictureName,
@@ -83,7 +79,6 @@ class TrickController extends BaseController
                     'slug' => $trick->getSlug()
                 ];
             }
-
             return new JsonResponse($data);
         }
     }
@@ -180,7 +175,6 @@ class TrickController extends BaseController
         return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
             'form' => $form->createView(),
-            'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
             'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick)
         ]);
     }

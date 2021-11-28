@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/forgot-password", name="app_forgot_password")
      */
-    public function forgotPassword(Request $request, UserRepository $user, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): Response 
+    public function forgotPassword(Request $request, UserRepository $user, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): Response 
     {
         //Init reset password form
         $form = $this->createForm(ForgotPasswordType::class);
@@ -52,34 +52,30 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //Get data
             $data = $form->getData();
-
-            //Find user by username
             $user = $user->findOneBy(['username' => $data['username']]);
 
             //If user does not exist
             if ($user === null) {
-                //Send error message
                 $this->addFlash('danger', "Ce nom d'utilisateur est inconnue");
-
-                return $this->redirectToRoute('app_forgot_password');
+                return $this->redirectToRoute('app_login');
             }
 
             //Generated token
             $token = $tokenGenerator->generateToken();
 
             //We try to write the token in the database
-            try {
-                $user->setResetToken($token);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-            } catch (\Exception $e) {
-                $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('app_login');
-            }
+            $user->setResetToken($token);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             //Send email
-            $mailerService->send('snowtricks@gmail.com', $user->getEmail(), 'Mot de passe oublié - SnowTricks', 'security/email.html.twig', [
+            $mailerService->send([
+                "from" => 'snowtricks@gmail.com',
+                "to" => $user->getEmail(),
+                "subject" => 'Mot de passe oublié - SnowTricks',
+                "template" => 'security/email.html.twig'
+            ], [
                 'token' => $token
             ]);
 
@@ -103,7 +99,6 @@ class SecurityController extends AbstractController
 
         //If user does not exist
         if ($user === null) {
-            //Display error message
             $this->addFlash('danger', 'Token Inconnu');
             return $this->redirectToRoute('app_login');
         }

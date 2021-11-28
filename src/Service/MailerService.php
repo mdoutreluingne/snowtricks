@@ -16,20 +16,17 @@ class MailerService
     /**
      * Send email
      *
-     * @param string $from
-     * @param string $to
-     * @param string $subject
-     * @param string $pathtemplate
+     * @param array $destination
      * @param array $parameters
      * @return void
      */
-    public function send(string $from, string $to, string $subject, string $pathtemplate, array $parameters)
+    public function send(array $destination, array $parameters)
     {
         $email = (new TemplatedEmail())
-            ->from($from)
-            ->to($to)
-            ->subject($subject)
-            ->htmlTemplate($pathtemplate)
+            ->from($destination["from"])
+            ->to($destination["to"])
+            ->subject($destination["subject"])
+            ->htmlTemplate($destination["template"])
             ->context($parameters);
 
         $this->mailer->send($email);
