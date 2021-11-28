@@ -8,40 +8,27 @@
     {# Display pictures collection #}
     <div class="col-md-6">
         <div class="row">
-            {# Display Main picture in the pictures collection #}
-            {% if trick.mainPicture != null %}
-            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
-                <a href="/img/tricks/{{ trick.mainPicture }}" class="">
-                    <img class="img-fluid trickimages" src="/img/tricks/{{ trick.mainPicture }}" />
-                </a>
-            </div>
-            {% else %}
-            <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
-                <a href="/img/tricks/default.jpg" class="">
-                    <img class="img-fluid trickimages" src="/img/tricks/default.jpg" />
-                </a>
-            </div>
-            {% endif %}
-            
-            
-            {% for picture in pictures %}
+            {# Display the pictures for the trick #}
+            {% for picture in trick.pictures|sort((a, b) => b.updatedAt <=> a.updatedAt) %}
             <div class="col-md-12 col-sm-12 col-lg-6 col-xl-6 mb-3">
                 <a href="/img/tricks/{{ picture.name }}" class="">
                     <img class="img-fluid trickimages" src="/img/tricks/{{ picture.name }}" />
                 </a>
+                {# Display icon if the picture is in first #}
+                {% if loop.first %}
+                    <i class="fas fa-star fa-lg" data-toggle="tooltip" data-placement="right" title="Image à la une"></i>
+                {% endif %}
                 {# Link icon pictures collection #}
                 {{ utils.editDeleteIcon("picture", picture.id, actionType) }}
             </div>
             {% endfor %}
-            {# Link add icon pictures collection #}
-            {{ utils.addIcon("picture", actionType) }}
         </div>
+        {# Link add icon pictures collection #}
+        {{ utils.addIcon("picture", actionType) }}
     </div>
     {# Display videos collection #}
     <div class="col-md-6">
         <div class="row">
-            {# Link add icon videos collection #}
-            {{ utils.addIcon("video", actionType) }}
             {% for video in videos %}
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-4 trickvideos">
                 {{ video['iframe']|raw }}
@@ -49,7 +36,8 @@
                 {{ utils.editDeleteIcon("video", video['id'], actionType) }}
             </div>                
             {% endfor %}
-            
         </div>
+        {# Link add icon videos collection #}
+        {{ utils.addIcon("video", actionType) }}
     </div>
 </div>

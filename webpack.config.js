@@ -26,6 +26,7 @@ Encore
     .addEntry('deleteMainPicture', './assets/js/deleteMainPicture.js')
     .addEntry('loadMoreTricks', './assets/js/loadMoreTricks.js')
     .addEntry('loadMoreComments', './assets/js/loadMoreComments.js')
+    .addEntry('addVideos', './assets/js/addVideos.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

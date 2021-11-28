@@ -48,7 +48,7 @@ Ensuite à la racine du projet, effectuez la commande `php bin/console doctrine:
 php bin/console doctrine:database:create
 ````
 
-Pour obtenir une structure similaire à mon projet au niveau de la base de données, je vous joins aussi dans le dossier `~src/Migrations/` les versions de migrations que j'ai utilisées. Vous pouvez donc recréer la base de données en effectuant la commande suivante, à la racine du projet :
+Pour obtenir une structure similaire à mon projet au niveau de la base de données, je vous joins aussi dans le dossier `~src/migrations/` les versions de migrations que j'ai utilisées. Vous pouvez donc recréer la base de données en effectuant la commande suivante, à la racine du projet :
 
 ```text
 php bin/console doctrine:migrations:migrate

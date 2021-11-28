@@ -26,31 +26,35 @@ class TrickController extends BaseController
     /**
      * @Route("/ajax-delete-mainpicture", name="trick_delete_mainpicture", methods={"POST"})
      */
-    public function ajaxDeleteMainPicture(Request $request, TrickRepository $trickRepository): Response
+    public function ajaxDeleteMainPicture(Request $request, TrickRepository $trickRepository, PictureRepository $pictureRepository): Response
     {
         // Get data
         $donnees = json_decode($request->getContent());
-        dump($donnees);
 
         if (isset($donnees->trick) && !empty($donnees->trick)) {
             //Init code
             $code = 200;
-
+            
             $trick = $trickRepository->find($donnees->trick);
+            $mainPicture = $pictureRepository->findBy(['trick' => $trick], ['updated_at' => 'DESC'], 1);
 
-            $this->checkPictureExist($trick);
+            //Delete main picture main picture
+            if (!empty($mainPicture)) {
+                //We get the fullname of the document
+                $name = $mainPicture[0]->getName();
+                //Delete picture in the folder
+                unlink($this->getParameter("picture_tricks") . '/' . $name);
 
-            //Set null main picture
-            $trick->setMainPicture(null);
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($mainPicture[0]);
+                $em->flush();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($trick);
-            $em->flush();
-
-            return new Response('Ok', $code);
+                return new Response('Ok', $code);
+            }
+            return new Response('Aucune image à la une disponible', 404);
         }
 
-        return new Response('Données incomplètes', 404);
+        return new Response('Données incomplètes', 404);    
     }
 
     /**
@@ -63,9 +67,17 @@ class TrickController extends BaseController
             $tricks = $trickRepository->findLoadMoreTricks($request->request->get('offset'), $trickRepository->count([]));
 
             foreach ($tricks as $trick) {
+                $pictures = $trick->getPictures();
+                if (0 != count($pictures)) {
+                    //Get first picture for the trick
+                    $pictureName = $pictures->first()->getName();
+                } else {
+                    $pictureName = '';
+                }
+
                 $data[] = [
                     'id' => $trick->getId(),
-                    'imageName' => $trick->getMainPicture(),
+                    'imageName' => $pictureName,
                     'category' => $trick->getCategory()->getName(),
                     'name' => $trick->getName(),
                     'slug' => $trick->getSlug()
@@ -88,7 +100,12 @@ class TrickController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUser($this->getUser());
-            $this->uploadMainPicture($form, "main_picture", $trick);
+
+            /* Add all the videos */
+            foreach ($form->get("videos")->getData() as $video) {
+                $video->setTrick($trick);
+            }
+            $this->uploadMainPicture($form, "picture_collection", $trick);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
@@ -131,7 +148,6 @@ class TrickController extends BaseController
 
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'pictures' => $this->pictureRepository->findBy(['trick' => $trick]),
             'videos' => $this->convertUrlVideoService->VidProviderUrl2Player($trick),
             'comments' => $commentRepository->findCommentsLastUpdated($trick),
             'countComments' => $commentRepository->count(['trick' => $trick]),
@@ -152,13 +168,13 @@ class TrickController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadMainPicture($form, "main_picture", $trick);
+            $this->uploadMainPicture($form, "picture_collection", $trick);
             
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', "Les informations ont été mises à jour avec succès !");
 
-            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('trick_show', ["slug" => $trick->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('trick/edit.html.twig', [
@@ -171,7 +187,7 @@ class TrickController extends BaseController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/{slug}/delete", name="trick_delete", methods={"POST"})
+     * @Route("/{slug}/delete", name="trick_delete")
      */
     public function delete(Request $request, Trick $trick): Response
     {

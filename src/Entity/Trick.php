@@ -77,10 +77,7 @@ class Trick
      */
     private $category;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $main_picture;
+    private $picture_collection;
 
     public function __construct()
     {
@@ -268,14 +265,22 @@ class Trick
         return $this;
     }
 
-    public function getMainPicture(): ?string
+    /**
+     * Get the value of picture_collection
+     */ 
+    public function getPicture_collection()
     {
-        return $this->main_picture;
+        return $this->picture_collection;
     }
 
-    public function setMainPicture(?string $main_picture): self
+    /**
+     * Set the value of picture_collection
+     *
+     * @return  self
+     */ 
+    public function setPicture_collection($picture_collection)
     {
-        $this->main_picture = $main_picture;
+        $this->picture_collection = $picture_collection;
 
         return $this;
     }
