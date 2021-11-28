@@ -2,15 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Entity\Trick;
 use App\Entity\Video;
-use App\Entity\Picture;
 use App\Entity\Category;
 use App\Form\VideoAddFormType;
-use App\Form\PictureAddFormType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,7 +15,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 

@@ -1,10 +1,10 @@
-var $collectionHolderVideo;
-var $newLinkLiVideo = $('#trickVideos');
-var regexYoutube = new RegExp("^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+");
-var regexDailymotion = new RegExp("^.+dailymotion.com\\/((video|hub)\\/([^_]+))?[^#]*(#video=([^_&]+))?/");
-var regexVimeo = new RegExp("^(http(s)?:\\/\\/)?((w){3}.)?player.vimeo.com/video\\/.+");
-
 $(document).ready(function () {
+    var $collectionHolderVideo;
+    var $newLinkLiVideo = $('#trickVideos');
+    var regexYoutube = new RegExp("^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+");
+    var regexDailymotion = new RegExp("^.+dailymotion.com\\/((video|hub)\\/([^_]+))?[^#]*(#video=([^_&]+))?/");
+    var regexVimeo = new RegExp("^(http(s)?:\\/\\/)?((w){3}.)?player.vimeo.com/video\\/.+");
+    
     // Get the ul that holds the collection of tags
     $collectionHolderVideo = $('#trickVideos');
 
@@ -15,11 +15,7 @@ $(document).ready(function () {
         addTagForm($collectionHolderVideo, $newLinkLiVideo);
     });
 
-    if (document.title != 'SnowTricks - Publier une figure') {
-        var initialVideosIndex = $('#trickMediaEditBlock').data('nbvideos');
-    } else {
-        var initialVideosIndex = 0;
-    }
+    var initialVideosIndex = 0;
 
     function addTagForm($collectionHolder, $newLinkLi) {
 
@@ -51,12 +47,12 @@ $(document).ready(function () {
         var nbVideoFields = $('#trickVideos div input').length - 1 + initialVideosIndex;
         var nbNonValide = 0;
 
-        for (i = 0; i <= nbVideoFields; i++) {
+        for (var i = 0; i <= nbVideoFields; i++) {
             var url = $("#trick_add_form_videos_" + i + "_url").val();
             if (typeof url == "undefined") {
                 url = $("#trick_edit_form_videos_" + i + "_url").val();
             }
-            if (url != "" && typeof url != "undefined") {
+            if (url !== "" && typeof url !== "undefined") {
                 var valideYoutube = regexYoutube.test(url);
                 var valideDailymotion = regexDailymotion.test(url);
                 var valideVimeo = regexVimeo.test(url);
