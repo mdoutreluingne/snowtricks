@@ -8,7 +8,6 @@
 .fa-user-circle,
 .fa-home,
 .fa-bookmark,
-.fa-user-circle,
 .fa-sign-out-alt,
 .fa-sign-in-alt {
   font-size: 1.5em !important;
@@ -22,18 +21,19 @@
 }
 
 .fa-trash-alt,
-.fa-pencil-alt {
+.fa-pencil-alt,
+.fa-star {
   color: #47bcd4;
 }
 
-/* CARD TRICKS HOME PAGE*/
+/* CARD TRICKS HOME PAGE */
 .card {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   margin-bottom: 15%;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .card:hover {
@@ -47,7 +47,7 @@
 }
 
 .tag {
-  background: #cccccc;
+  background: #ccc;
   border-radius: 50px;
   font-size: 12px;
   margin: 0;
@@ -94,7 +94,7 @@
 }
 
 .title_trick {
-  color: #444444;
+  color: #444;
 }
 
 .section-loadmore-tricks {
@@ -120,7 +120,7 @@
   width: 90%;
   max-width: 450px;
   position: relative;
-  padding: 0px;
+  padding: 0;
   -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   text-align: center;
@@ -160,16 +160,6 @@ button[type="submit"]:hover {
   background-color: #47bcd4;
 }
 
-input[type="button"]:active,
-button[type="submit"]:active,
-input[type="password"]:active {
-  -moz-transform: scale(0.95);
-  -webkit-transform: scale(0.95);
-  -o-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-}
-
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -192,6 +182,16 @@ input[type="password"] {
   border-radius: 5px 5px 5px 5px;
 }
 
+input[type="button"]:active,
+button[type="submit"]:active,
+input[type="password"]:active {
+  -moz-transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+}
+
 input[type="text"]:focus,
 input[type="email"]:focus {
   background-color: #fff;
@@ -200,7 +200,7 @@ input[type="email"]:focus {
 
 input[type="text"]:placeholder,
 input[type="email"]:placeholder {
-  color: #cccccc;
+  color: #ccc;
 }
 
 /* ADMIN */

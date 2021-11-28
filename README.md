@@ -1,6 +1,6 @@
 # SnowTricks
 
-[PHP / Symfony] - Développement du site communautaire SnowTricks 100% snowboard !
+PHP / Symfony - Développement du site communautaire SnowTricks 100% snowboard !
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/0748f3f0091e2f944154/maintainability)](https://codeclimate.com/github/mdoutreluingne/snowtricks/maintainability)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9c2b5c04e4f84ffe88c762165070a2d5)](https://www.codacy.com/gh/mdoutreluingne/snowtricks/dashboard?utm_source=github.com&utm_medium=referral&utm_content=mdoutreluingne/snowtricks&utm_campaign=Badge_Grade)
@@ -48,7 +48,7 @@ Ensuite à la racine du projet, effectuez la commande `php bin/console doctrine:
 php bin/console doctrine:database:create
 ````
 
-Pour obtenir une structure similaire à mon projet au niveau de la base de données, je vous joins aussi dans le dossier `~src/Migrations/` les versions de migrations que j'ai utilisées. Vous pouvez donc recréer la base de données en effectuant la commande suivante, à la racine du projet :
+Pour obtenir une structure similaire à mon projet au niveau de la base de données, je vous joins aussi dans le dossier `~src/migrations/` les versions de migrations que j'ai utilisées. Vous pouvez donc recréer la base de données en effectuant la commande suivante, à la racine du projet :
 
 ```text
 php bin/console doctrine:migrations:migrate
@@ -78,4 +78,4 @@ A la racine du projet :
 *   Pour lancer le serveur de développement, effectuez un `yarn encore dev`.
 *   Pour lancer le serveur de symfony, effectuez un `php bin/console server:start`.
 
-### Bravo, le projet SnowTricks est désormais accessible à l'adresse : localhost:8000 !
+### Bravo, le projet SnowTricks est désormais accessible à l'adresse : localhost:8000

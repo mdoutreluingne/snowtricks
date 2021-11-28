@@ -2,6 +2,17 @@
 
 {% block title %}Créer une figure{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{ encore_entry_script_tags('addVideos') }}
+{% endblock %}
+
 {% block body %}
 <div class="wrapper zero-raduis panel-admin">
     <div id="formContent">

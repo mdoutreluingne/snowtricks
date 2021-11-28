@@ -21,7 +21,7 @@ import ".././bootstrap";
   });
 
   $("#edit-main-picture").click(function () {
-    $("#trick_main_picture").trigger('click');
+    $("#trick_picture_collection").trigger('click');
   });
   
 })();

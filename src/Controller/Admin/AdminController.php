@@ -19,7 +19,7 @@ class AdminController extends AbstractController
         return $this->render('admin/index.html.twig', [
             'users' => $userRepository->findAll(),
             'tricks' => $trickRepository->findBy([], ['updated_at' => 'DESC']),
-            'comments' => $commentRepository->findAll([], ['updated_at' => 'DESC'])
+            'comments' => $commentRepository->findBy([], ['created_at' => 'DESC'])
         ]);
     }
 }

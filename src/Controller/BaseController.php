@@ -43,8 +43,7 @@ class BaseController extends AbstractController
     public function uploadMainPicture($form, $fieldName, $object): void
     {
         //We recover the transmitted picture
-        $picture = $form->get($fieldName)->getData();
-        
+        $picture = $form->get($fieldName)->getData();  
 
         //Call function for manage picture
         $this->managePicture($picture, $object);
@@ -59,24 +58,32 @@ class BaseController extends AbstractController
      */
     public function managePicture($pictures, $object): void
     {   
-        if ($pictures != null) {
-            $this->checkPictureExist($object);
-            $file = $this->generateUniqueName($pictures);
-            
+        if ($pictures != null) {            
             switch (get_class($object)) {
                 case User::class:
+                    $this->checkPictureExist($object);
+                    $file = $this->generateUniqueName($pictures);
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_AVATAR);
                     $object->setAvatar($file);
                     break;
                 case Trick::class:
-                    $this->movePicture($pictures, $file, self::KEY_DIRECTORY_TRICK);
-                    $object->setMainPicture($file);
+                    foreach ($pictures as $key => $picture) {
+                        $newPicture = new Picture();
+                        $newPicture->setSize($picture->getClientSize());
+                        $file = $this->generateUniqueName($picture);
+                        $newPicture->setName($file);
+                        $key === array_key_first($pictures) ? $newPicture->setUpdatedAt(new \DateTimeImmutable()) : $newPicture->setUpdatedAt(null);
+
+                        $this->movePicture($picture, $file, self::KEY_DIRECTORY_TRICK);
+                        $object->addPicture($newPicture);
+                    }
                     break;
                 case Picture::class:
+                    $file = $this->generateUniqueName($pictures);
                     $object->setSize($pictures->getClientSize());
                     $this->movePicture($pictures, $file, self::KEY_DIRECTORY_TRICK);
                     $object->setName($file);
-                    $object->setUpdatedAt(new \DateTimeImmutable());
+                    $object->setUpdatedAt(null);
                     break;
                 default:
             }
@@ -98,22 +105,6 @@ class BaseController extends AbstractController
                     $name = $object->getAvatar();
                     //Delete document in the folder
                     unlink($this->getParameter(self::KEY_DIRECTORY_AVATAR) . '/' . $name);
-                }
-                break;
-            case Trick::class:
-                if ($object->getMainPicture() != null) {
-                    //We get the fullname of the document
-                    $name = $object->getMainPicture();
-                    //Delete document in the folder
-                    unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
-                }
-                break;
-            case Picture::class:
-                if ($object->getName() != null) {
-                    //We get the fullname of the document
-                    $name = $object->getName();
-                    //Delete document in the folder
-                    unlink($this->getParameter(self::KEY_DIRECTORY_TRICK) . '/' . $name);
                 }
                 break;
             default:

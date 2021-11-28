@@ -3,8 +3,8 @@
 {% block title %}Commentaire{% endblock %}
 
 {% block body %}
-    <h1>Commentaire</h1>
-
+<div class="panel-admin">
+    <h1>Commentaire {{ comment.id }}</h1>
     <table class="table">
         <tbody>
             <tr>
@@ -12,17 +12,21 @@
                 <td>{{ comment.id }}</td>
             </tr>
             <tr>
-                <th>Content</th>
+                <th>Contenu</th>
                 <td>{{ comment.content }}</td>
             </tr>
             <tr>
-                <th>Created_at</th>
+                <th>Créer le</th>
                 <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Updated_at</th>
+                <th>Modifier le</th>
                 <td>{{ comment.updatedAt ? comment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
+</div>
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

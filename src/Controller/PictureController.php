@@ -30,6 +30,7 @@ class PictureController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $this->uploadMainPicture($form, "name", $picture);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -74,17 +75,15 @@ class PictureController extends BaseController
     }
 
     /**
-     * @Route("/{id}", name="picture_delete", methods={"POST"})
+     * @Route("/{id}", name="picture_delete")
      */
     public function delete(Request $request, Picture $picture): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($picture);
-            $entityManager->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($picture);
+        $entityManager->flush();
 
-            $this->addFlash('success', "La vidéo a été supprimée avec succès !");
-        }
+        $this->addFlash('success', "La vidéo a été supprimée avec succès !");
 
         return $this->redirectToRoute('trick_show', ["slug" => $picture->getTrick()->getSlug()], Response::HTTP_SEE_OTHER);
     }

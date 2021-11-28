@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/comment")
+ * @Route("/admin/comment", name="admin_")
  */
 class CommentController extends AbstractController
 {
@@ -38,31 +38,6 @@ class CommentController extends AbstractController
 
             return new JsonResponse($data);
         }
-    }
-
-    /**
-     * @Route("/new", name="comment_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            $this->addFlash('success', "Votre commentaire a été ajoutée avec succès !");
-
-            return $this->redirectToRoute('admin', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('admin/comment/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**

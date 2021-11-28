@@ -1,9 +1,9 @@
-<form method="post" class="form-delete" action="{{ path('trick_delete', {'slug': trick.slug}) }}"
-    onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément ?');">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-    {% if btn_delete is not defined %}
-    <button class="btn" data-toggle="tooltip" data-placement="right" title="Supprimer"><i class="fas fa-trash-alt fa-lg"></i></button>
-    {% else %}
-    <button class="btn btn-danger center-block">Supprimer</button>
-    {% endif %}
-</form>
+{% if btn_delete is not defined %}
+<a href="{{ path('trick_delete', {'slug': trick.slug}) }}" class="btn" data-toggle="tooltip" data-placement="right"
+        title="Supprimer" onclick="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément ?')">
+<i class="fas fa-trash-alt fa-lg"></i>
+</a>
+{% else %}
+<a href="{{ path('trick_delete', {'slug': trick.slug}) }}" class="btn btn-danger center-block"
+        onclick="return confirm('Êtes-vous sûr de bien vouloir supprimer cet élément ?')">Supprimer</a>
+{% endif %}

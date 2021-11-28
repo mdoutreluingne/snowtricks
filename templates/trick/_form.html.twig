@@ -1,4 +1,27 @@
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.category) }}
+    {{ form_widget(form.picture_collection) }}
+    <div class="form-group row">
+        <br />
+        <label for="video1" class="col-sm-4 col-form-label">Vidéos :<br />
+            <span class="btn btn-info add_video_link" id="addVideoUpload" title="Ajouter une vidéo"><i
+                    class="fas fa-video"></i></span>
+        </label>
+        <div class="col-sm-8" id="trickVideos"
+            data-prototype="<div class='row align-items-center'><div class='col-sm-10'>{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}</div><div class='col-sm-2 form-group deleteVideo'><span><i class='fas fa-trash-alt'></i></span></div></div>"
+            data-widget-counter="{{ form.videos|length }}">
+
+            {% for video in form.videos %}
+            <div class='row align-items-center'>
+                {{ form_errors(video) }}
+                <div class='col-sm-10'>{{ form_widget(video) }}</div>
+                <div class='col-sm-2 form-group deleteVideo'><span><i class='fas fa-trash-alt'></i></span></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
     <button class="btn btn-primary mb-3">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

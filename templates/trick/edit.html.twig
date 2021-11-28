@@ -8,11 +8,22 @@
 {% endblock %}
 
 {% block body %}
+
+{% set mainPicture = 'default.jpg' %}
+{# Find first picture in the trick #}
+{% if (trick.pictures | length) != 0 %}
+    {% for picture in trick.pictures|sort((a, b) => b.updatedAt <=> a.updatedAt) %}
+        {% if loop.first %}
+            {% set mainPicture = picture.name %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'} }) }}
 {# Trick header #}
 <header class="img-fluid"
     style="height: 90vh;background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 75%, #ffffff
-    100%), url('/img/tricks/{{ trick.mainPicture != null ? trick.mainPicture : 'default.jpg'}}');background-repeat: no-repeat;background-size: cover;">
+    100%), url('/img/tricks/{{ mainPicture }}');background-repeat: no-repeat;background-size: cover;">
     <div class="container d-flex h-100 align-items-center">
         <div class="mx-auto text-center">
             <h1 class="text-uppercase mx-auto my-0">{{ form_widget(form.name) }}</h1>
@@ -24,7 +35,7 @@
             <i class="fas fa-pencil-alt fa-lg" id="edit-main-picture" data-toggle="tooltip" data-placement="right"
                 title="Modifier l'image à la une"></i>
             <div class="main_picture">
-                {{ form_row(form.main_picture) }}
+                {{ form_row(form.picture_collection) }}
             </div> 
         </label>
         
@@ -67,9 +78,6 @@
         </div>
     </div>
 </section>
-
-{# Another fields #}
-{{ form_rest(form) }}
 
 {# Button #}
 <div class="col-12 text-center mb-5">
