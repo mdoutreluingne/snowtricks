@@ -3,19 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Security\EmailVerifier;
+use App\Controller\BaseController;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
-use App\Security\EmailVerifier;
+use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-class RegistrationController extends AbstractController
+class RegistrationController extends BaseController
 {
     private EmailVerifier $emailVerifier;
 
@@ -36,7 +37,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-            $userPasswordEncoderInterface->encodePassword(
+                $userPasswordEncoderInterface->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
@@ -57,7 +58,7 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Un email de confirmation vous a été envoyé pour activer votre compte');
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -73,13 +74,13 @@ class RegistrationController extends AbstractController
         $id = $request->get('id');
 
         if (null === $id) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         $user = $userRepository->find($id);
 
         if (null === $user) {
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists
@@ -88,11 +89,11 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('danger', $exception->getReason());
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
         $this->addFlash('success', 'Votre adresse e-mail a été vérifiée');
 
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('app_login');
     }
 }
