@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Controller\BaseController;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\RegistrationFormType;
@@ -10,17 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/admin/user", name="admin_")
  */
-class UserController extends AbstractController
+class UserController extends BaseController
 {
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $userPasswordEncoderInterface): Response
+    public function new(Request $request): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -31,7 +31,7 @@ class UserController extends AbstractController
             $user->setIsVerified(true);
 
             $user->setPassword(
-                $userPasswordEncoderInterface->encodePassword(
+                $this->passwordEncoder->encodePassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )
