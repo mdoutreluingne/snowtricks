@@ -8,7 +8,7 @@ use App\Repository\VideoRepository;
 class ConvertUrlVideoService
 {
     const VIDEO_WIDTH = 240;
-    const VIDEO_HEIGHT = 240;
+    const VIDEO_HEIGHT = 160;
     const VIDEO_AUTOPLAY = false;
 
     /**

@@ -52,7 +52,7 @@ class SecurityController extends BaseController
 
             //If user does not exist
             if ($user === null) {
-                $this->addFlash('danger', "Ce nom d'utilisateur est inconnue");
+                $this->addFlash('danger', "Ce nom d'utilisateur est inconnu");
                 return $this->redirectToRoute('app_login');
             }
 

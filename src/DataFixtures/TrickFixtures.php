@@ -30,7 +30,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $tricks = ['Melancholie', 'Mute', '540 rotation', 'Indy', 'Stalefish', 'Japan Air', 'Nose grab', '180 rotation', 'Tail grab', '900 rotation', 'Seat Belt', '360 rotation', '720 rotation', 'Backside Air', 'Truck driver', 'Big foot', 'Rocket Air', 'Method Air'];
+        $tricks = ['Melancholie', 'Mute', '540 rotation', 'Indy', 'Stalefish', 'Japan Air', 'Nose grab', '180 rotation', 'Tail grab', '900 rotation'];
         $tricksDescription = [
             "Saisie de la carre backside de la planche, entre les deux pieds, avec la main avant.",
             "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant.",
@@ -42,14 +42,6 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             "Désigne un demi-tour, soit 180 degrés d'angle.",
             "Saisie de la partie arrière de la planche, avec la main arrière.",
             "Deux tours et demi.",
-            "Saisie du carre frontside à l'arrière avec la main avant.",
-            "Trois six pour un tour complet.",
-            "Sept deux pour deux tours complets",
-            "",
-            "Saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture).",
-            "Trois tours.",
-            "",
-            ""
         ];
 
         $user = $this->userRepository->findOneBy(['username' => 'admin']);

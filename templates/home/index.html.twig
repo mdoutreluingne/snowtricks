@@ -91,5 +91,5 @@
 </main>
 
 {# Arrow that allows you to go to the top of the "figures" section if there are more than 15 figures displayed #}
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="fas fa-chevron-up"></i></a>
+<a href="{{ path('home', {'_fragment': 'tricks'}) }}" class="back-to-top d-flex align-items-center justify-content-center scrollto"><i class="fas fa-chevron-up"></i></a>
 {% endblock %}
