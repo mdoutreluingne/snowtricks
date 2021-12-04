@@ -19,6 +19,7 @@ class Comment
     private $id;
 
     /**
+     * @Assert\NotBlank
      * @Assert\Length(min = 2)
      * @ORM\Column(type="text")
      */
