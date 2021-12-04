@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
- * @Route("/admin/comment", name="admin_")
+ * @Route("/comment", name="admin_")
  */
 class CommentController extends AbstractController
 {
@@ -41,6 +42,7 @@ class CommentController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="comment_show", methods={"GET"})
      */
     public function show(Comment $comment): Response
@@ -51,6 +53,7 @@ class CommentController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Comment $comment): Response
@@ -73,6 +76,7 @@ class CommentController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_ADMIN")
      * @Route("/{id}", name="comment_delete", methods={"POST"})
      */
     public function delete(Request $request, Comment $comment): Response

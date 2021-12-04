@@ -26,7 +26,7 @@ class CommentRepository extends ServiceEntityRepository
             ->andWhere('c.trick = :trick')
             ->setParameter('trick', $trick)
             ->orderBy('c.created_at', 'DESC')
-            ->setMaxResults(8)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }

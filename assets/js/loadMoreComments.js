@@ -1,5 +1,5 @@
 (function () {
-    $("#showMoreOffsetComments").val(8); //Init display card
+    $("#showMoreOffsetComments").val(10); //Init display card
 
     $(".loadmore-comments").click(function () {
         var offset = $("#showMoreOffsetComments").val();
